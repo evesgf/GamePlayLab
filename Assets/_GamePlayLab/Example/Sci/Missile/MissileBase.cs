@@ -27,6 +27,7 @@ namespace GPL
 
         public float rotateSpeed = 10f;         //跟踪转向系数
 
+        public GameObject explodePrefab;        //爆炸特效
         public float minHitDistance=1f;         //最小撞击距离
         public float RaycastAdvance = 2f;       //无锁时前向检测距离
 
@@ -36,6 +37,7 @@ namespace GPL
         private Vector3 targetLastPos;          //缓存上一帧的目标位置
         private Vector3 step;                   //本帧飞行步长
         private Vector3 predictivePos;          //预判位置
+        private bool isMissileDestroy = false;  //特效flag
 
         public void Init()
         {
@@ -48,18 +50,22 @@ namespace GPL
         {
             isHit = true;
             Destroy(gameObject);
+            OnMissileDestroy();
         }
 
         public void OnMissileDestroy()
         {
-            
+            if (explodePrefab == null) return;
+            var ex = Instantiate(explodePrefab,transform.transform.position,transform.rotation) as GameObject;
+            Destroy(ex, 1f);
         }
 
         private void FixedUpdate()
         {
             if (isHit)
             {
-                //撞击后执行一次销毁函数
+                //撞击后执行一次函数
+                
             }
             else
             {
