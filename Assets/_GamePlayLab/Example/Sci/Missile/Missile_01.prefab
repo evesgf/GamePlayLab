@@ -57,7 +57,7 @@ MonoBehaviour:
   lifeTime: 15
   flySpeed: 15
   rotateSpeed: 5
-  explodePrefab: {fileID: 100000, guid: 5c66aaebaed6ae54183b4e93cfbc6397, type: 3}
+  explodePrefab: {fileID: 100000, guid: 2931b6773f1a1b741982559a575e6163, type: 3}
   minHitDistance: 1
   RaycastAdvance: 2
 --- !u!1 &4694502835052280308
