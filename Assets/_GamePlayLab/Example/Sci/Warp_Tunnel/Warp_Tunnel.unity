@@ -280,7 +280,7 @@ Transform:
   m_LocalScale: {x: 499.99982, y: 500, z: 499.99982}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1054880990
 GameObject:
@@ -359,7 +359,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1054880990}
   m_LocalRotation: {x: -0.26141804, y: -0.0028893326, z: 0.0007825396, w: -0.96522105}
-  m_LocalPosition: {x: -0.12921372, y: 51.616425, z: -21.5826}
+  m_LocalPosition: {x: -0.12921372, y: 17.616425, z: -21.5826}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -411,49 +411,6 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1465398098}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 34, z: -88.5}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1509335043
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1509335045}
-  - component: {fileID: 1509335044}
-  m_Layer: 0
-  m_Name: F3DTime
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1509335044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509335043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea6db21743dfa4646bb14c1157212003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1509335045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509335043}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -553,7 +510,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82c1af3c4f4a1e7409d4d7f6febb3800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 788833148}
+  targets:
+  - {fileID: 788833148}
+  - {fileID: 1465398099}
   warpTunnelEngine: {fileID: 1394723134277212631}
 --- !u!1 &2061508965
 GameObject:
@@ -580,13 +539,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2061508965}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: 0.2578185, z: -0, w: 0.96619344}
   m_LocalPosition: {x: -350, y: 0, z: 1000}
   m_LocalScale: {x: 499.99982, y: 500, z: 499.99982}
   m_Children: []
   m_Father: {fileID: 602189465}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 29.881, z: 0}
 --- !u!23 &2061508967
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -696,7 +655,7 @@ PrefabInstance:
     - target: {fileID: 6199135702358639111, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 34
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6199135702358639111, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
@@ -761,7 +720,7 @@ PrefabInstance:
     - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
       propertyPath: maxWarpDistance
-      value: 2000
+      value: 10000
       objectReference: {fileID: 0}
     - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
@@ -796,12 +755,12 @@ PrefabInstance:
     - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
       propertyPath: startSpeedCurve.m_Curve.Array.data[1].inSlope
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
       propertyPath: startSpeedCurve.m_Curve.Array.data[1].outSlope
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
         type: 3}
@@ -812,6 +771,38 @@ PrefabInstance:
         type: 3}
       propertyPath: startSpeedCurve.m_Curve.Array.data[1].outWeight
       value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
+        type: 3}
+      propertyPath: startSpeedCurve.m_Curve.Array.data[0].inSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
+        type: 3}
+      propertyPath: startSpeedCurve.m_Curve.Array.data[0].outSlope
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
+        type: 3}
+      propertyPath: showDebug
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
+        type: 3}
+      propertyPath: nowWarpTunnelEffect
+      value: 
+      objectReference: {fileID: 4316582351620298019, guid: bc7a67001b633c64db125ea037ee45d2,
+        type: 3}
+    - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
+        type: 3}
+      propertyPath: warpTunnelEffect
+      value: 
+      objectReference: {fileID: 4316582351620298019, guid: bc7a67001b633c64db125ea037ee45d2,
+        type: 3}
+    - target: {fileID: 1394723134277212631, guid: b6b6e9fcf77a57548a1018d55bd47242,
+        type: 3}
+      propertyPath: fullWarpTime
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b6b6e9fcf77a57548a1018d55bd47242, type: 3}

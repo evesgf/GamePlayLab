@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,96 +8,133 @@ namespace GPL
 {
     public class WarpTunnelEngine : MonoBehaviour
     {
-        public Vector3 target;
-        public float minWarpDistance;
-        public float maxWarpDistance;
-        public float endWarpInterval;                   //最终跳点小于目标跳点则忽略
+        public bool showDebug = false;
+        public Vector3 target;                          //跃迁坐标点
+        public float minWarpDistance=10f;               //最小跃迁距离
+        public float maxWarpDistance=10000f;            //最大跃迁距离
+        public float maxWarpSpeed = 100f;               //最大跃迁速度
 
-        public AnimationCurve startSpeedCurve;          //起跳速度渐变曲线
-        public float maxWarpSpeed;
+        public float fullWarpTime=5f;                   //0到满速的加速时间
 
-        public WarpTunnelEffect warpTunnelEffect;
-        public float startDuration = 3f;
+        Vector3 realTarget;                             //最终跃迁坐标点
+        Vector3 warpVel;                                //跃迁方向
+        float nowWarpSpeed;                             //当前跃迁速度
 
-        Vector3 targetVel;
-        Vector3 realTargetPos;
-        float targetDistance;
-        float nowTargetDistance;
-        float nowWarpSpeed;
+        public WarpTunnelEffect warpTunnelEffect;       //跳跃通道特效
 
-        float startWarpTunnelTime;
+        private WarpTunnelEffect nowWarpTunnelEffect;   //当前跃迁通道特效
+        private Vector3 warpStartBPos;                  //起跳点到加速到满速的位置
+        private float warpStartTime;                    //起跳计时器
 
-        bool warpTunnelStart, warpTunnelEnd;            //Start为进入Tunnel，End为离开Tunnel
+        private Vector3 warpEndAPos;                    //开始减速到0的位置
+        private float warpEndTime;                      //减速计时器
 
-        private WarpTunnelEffect nowWarpTunnelEffect;
+        private float fullWarpDistance;                 //0速到慢速需要的加速距离
 
-        public void WarpTunnelStart(Vector3 target)
+        private void Start()
+        {
+            fullWarpDistance = CalculteZeroToFullWarpDistance(maxWarpSpeed, fullWarpTime);
+        }
+
+        /// <summary>
+        /// 计算从0到满速的匀速变速过程所需的行驶距离
+        /// </summary>
+        /// <param name="maxSpeed"></param>
+        /// <returns></returns>
+        private float CalculteZeroToFullWarpDistance(float maxSpeed,float time)
+        {
+            //S=vt-at^2/2  路程等于初速度乘以时间再减去加速度乘以（时间的平方）的二分之一
+            return maxSpeed * time* 0.5f;
+        }
+
+        public void WarpTunnelStart(Vector3 target,Action onStart,Action onEnd)
         {
             this.target = target;
+            realTarget = target;
 
-            targetVel = (target - transform.position).normalized;
-            //计算最大跳跃距离
-            targetDistance = Vector3.Distance(transform.position, target);
-            if (targetDistance < minWarpDistance)
+            warpVel = (target - transform.position).normalized;
+            var warpDistance = Vector3.Distance(transform.position, target);
+
+            //真实跃迁目标点判断
+            //小于最小跃迁距离则不跃迁
+            if (warpDistance < minWarpDistance)
             {
-                print("距离过近");
+                print("小于最小跃迁距离");
                 return;
-            } else if(targetDistance> maxWarpDistance)
+            }
+            //大于最大跃迁距离则计算该方向上最大跃迁坐标
+            if (warpDistance > maxWarpDistance)
             {
-                //超出最大跳跃距离时如果大于忽略值则跳至最大距离否则直接跳目标点
-                realTargetPos = (targetDistance - maxWarpDistance) >= endWarpInterval ? (target - transform.position).normalized*maxWarpDistance : target;
+                realTarget = transform.position + warpVel * maxWarpDistance;
+                //如果最终跳点和目标跳点距离小于minWarpDistance，则直接为目标跳点
+                if (Vector3.Distance(realTarget, target) < minWarpDistance)
+                {
+                    realTarget = target;
+                }
             }
 
-            StartCoroutine(OnWarpTunnelStart());
-
-        }
-
-        IEnumerator OnWarpTunnelStart()
-        {
-            nowWarpTunnelEffect = Instantiate(warpTunnelEffect, transform);
-            nowWarpTunnelEffect.StartWarpTunnel(startDuration);
-            warpTunnelStart = true;
-            startWarpTunnelTime = 0;
-            yield return new WaitForSeconds(startDuration);
-        }
-
-        private void Update()
-        {
-            //计算与目标点的位置
-            nowTargetDistance = Vector3.Distance(transform.position, realTargetPos);
-
-            if (warpTunnelStart)
+            var realWarpDistance = Vector3.Distance(transform.position, realTarget);
+            //计算加速减速的缓动位置
+            //如果总跃迁距离小于加速减速距离之和，则取总跃迁距离中点进行加减速
+            if (realWarpDistance < fullWarpDistance * 2)
             {
-                if (startWarpTunnelTime >= startDuration)
-                {
-                    warpTunnelStart = false;
-                }
-                //如果在加速过程中已经走过一半的距离，则退出加速进入WarpTunnelEnd
-                if (nowTargetDistance >= targetDistance / 2)
-                {
-                    warpTunnelStart = false;
-                    warpTunnelEnd = true;
-                }
-                else
-                {
-                    nowWarpSpeed = maxWarpSpeed * startSpeedCurve.Evaluate(startWarpTunnelTime / startDuration);
-                }
-            }
-            else if (warpTunnelEnd)
-            {
-                nowWarpSpeed = maxWarpSpeed * startSpeedCurve.Evaluate(1-startWarpTunnelTime / startDuration);
+                warpStartBPos = transform.position + warpVel * realWarpDistance * 0.5f;
+                warpEndAPos = warpStartBPos;
             }
             else
             {
-                //if ()
-                //{
-                //    warpTunnelEnd = true;
-                //}
-                nowWarpSpeed = maxWarpSpeed;
+                warpStartBPos = transform.position + warpVel * fullWarpDistance;
+                warpEndAPos = transform.position + warpVel * (realWarpDistance - fullWarpDistance);
             }
 
-            transform.position += targetVel * nowWarpSpeed * Time.deltaTime;
-            startWarpTunnelTime += Time.deltaTime;
+            //计算匀速跃迁所需时间
+            var warpMoveTime = Vector3.Distance(warpStartBPos, warpEndAPos) / maxWarpSpeed;
+
+            //开始WarpStart缓动
+            Tweener t1 = transform.DOMove(warpStartBPos, fullWarpTime).SetEase(Ease.InCubic).OnStart(()=> {
+                warpStartTime = 0;
+                //实例化特效
+                nowWarpTunnelEffect = Instantiate(warpTunnelEffect, transform);
+                nowWarpTunnelEffect.StartWarpTunnel(fullWarpTime/2);
+                Tweener tLookAt = transform.DOLookAt(realTarget,1f);
+                if (onStart != null) onStart.Invoke();
+            }).OnUpdate(()=> {
+                warpStartTime += Time.deltaTime;
+                nowWarpSpeed = maxWarpSpeed * warpStartTime / fullWarpTime;
+            }).OnComplete(()=> {
+                //结束WarpStart缓动
+                //进入匀速跃迁运动
+                Tweener t2 = transform.DOMove(warpEndAPos, warpMoveTime).SetEase(Ease.Linear).OnComplete(() => {
+                    //结束匀速跃迁运动
+                    //开始warpEnd缓动
+                    Tweener t3= transform.DOMove(realTarget, fullWarpTime).SetEase(Ease.OutCubic).OnStart(() =>
+                    {
+                        warpEndTime = fullWarpTime;
+                        nowWarpTunnelEffect.EndWarpTunnel(fullWarpTime/2);
+                    }).OnUpdate(() =>
+                    {
+                        warpEndTime -= Time.deltaTime;
+                        nowWarpSpeed = maxWarpSpeed * warpEndTime / fullWarpTime;
+                    }).OnComplete(() => {
+                        //结束warpEnd缓动
+                        print("Warp Complete");
+                        Destroy(nowWarpTunnelEffect.gameObject);
+                        if (onEnd != null) onEnd.Invoke();
+                    });
+                });
+            });
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (!showDebug) return;
+            Gizmos.DrawSphere(realTarget, 5f);
+            Gizmos.color = Color.yellow;
+            Gizmos.DrawSphere(warpStartBPos, 5f);
+            Gizmos.DrawLine(transform.position, warpStartBPos);
+            Gizmos.color = Color.red;
+            Gizmos.DrawSphere(warpEndAPos, 5f);
+            Gizmos.DrawLine(warpEndAPos, realTarget);
         }
     }
 }
