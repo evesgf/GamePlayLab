@@ -272,62 +272,13 @@ MonoBehaviour:
   usMouseCtrl: 1
   target: {fileID: 2048515538}
   offset: {x: 0, y: 5, z: 0}
-  distance: 25
+  distance: 30
   xSpeed: 60
   ySpeed: 800
   yMinLimit: -60
   yMaxLimit: 60
   distanceMin: 15
   distanceMax: 50
---- !u!1 &1509335043
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1509335045}
-  - component: {fileID: 1509335044}
-  m_Layer: 0
-  m_Name: F3DTime
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1509335044
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509335043}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea6db21743dfa4646bb14c1157212003, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1509335045
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1509335043}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &1825609199 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8340387043320932446, guid: 8cc9ae988ddbe5a4681cf69fa380ee59,
-    type: 3}
-  m_PrefabInstance: {fileID: 8340387043914415120}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1881348785
 GameObject:
   m_ObjectHideFlags: 0
@@ -592,28 +543,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 296127292028975028, guid: 8cc9ae988ddbe5a4681cf69fa380ee59,
-        type: 3}
-      propertyPath: jumpOut
-      value: 
-      objectReference: {fileID: 4859279561781288043, guid: 208740b90e570cb45a75696f437038e9,
-        type: 3}
-    - target: {fileID: 296127292028975028, guid: 8cc9ae988ddbe5a4681cf69fa380ee59,
-        type: 3}
-      propertyPath: jumpIn
-      value: 
-      objectReference: {fileID: 1161802571323170947, guid: 03186c2ca69388241b0949fef646578e,
-        type: 3}
-    - target: {fileID: 296127292028975028, guid: 8cc9ae988ddbe5a4681cf69fa380ee59,
-        type: 3}
-      propertyPath: avatar
-      value: 
-      objectReference: {fileID: 1825609199}
-    - target: {fileID: 296127292028975028, guid: 8cc9ae988ddbe5a4681cf69fa380ee59,
-        type: 3}
-      propertyPath: jumpOutSpeed
-      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cc9ae988ddbe5a4681cf69fa380ee59, type: 3}

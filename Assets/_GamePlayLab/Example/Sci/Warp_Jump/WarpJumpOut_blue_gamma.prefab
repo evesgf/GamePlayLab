@@ -4839,6 +4839,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 87d285fe79d41974685b741092385ce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isIn: 0
   warpRings: {fileID: 292522112111468525}
   warpRangeScale: {x: 1, y: 1, z: 2}
   warpMoveing: {fileID: 292522111637016546}
@@ -4846,6 +4847,7 @@ MonoBehaviour:
   ShipJumpSpeed: 5
   ShipJumpStartPoint: {x: 0, y: 0, z: 0}
   ShipJumpEndPoint: {x: 0, y: 0, z: 132}
+  isPlayAwake: 0
 --- !u!1 &292522111695159675
 GameObject:
   m_ObjectHideFlags: 0
@@ -14289,7 +14291,7 @@ GameObject:
   - component: {fileID: 292522111937665291}
   - component: {fileID: 292522111937665286}
   - component: {fileID: 292522111937665289}
-  - component: {fileID: 292522111937665288}
+  - component: {fileID: 7015819633505727557}
   m_Layer: 0
   m_Name: WarpJumpTunnel_03
   m_TagString: Untagged
@@ -14356,7 +14358,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &292522111937665288
+--- !u!114 &7015819633505727557
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -14365,7 +14367,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 292522111937665290}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579b0f7f37f7a0f4ea9b8ecc4c9dca5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 53e0610faafc0d848ac86cf8e96430aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   StartDelay: 3
@@ -23607,7 +23609,7 @@ GameObject:
   - component: {fileID: 292522112906922637}
   - component: {fileID: 292522112906922632}
   - component: {fileID: 292522112906922635}
-  - component: {fileID: 292522112906922634}
+  - component: {fileID: 3713629537474458251}
   m_Layer: 0
   m_Name: WarpJumpTunnel_02
   m_TagString: Untagged
@@ -23674,7 +23676,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &292522112906922634
+--- !u!114 &3713629537474458251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -23683,7 +23685,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 292522112906922636}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579b0f7f37f7a0f4ea9b8ecc4c9dca5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 53e0610faafc0d848ac86cf8e96430aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   StartDelay: 2.7
@@ -33068,7 +33070,7 @@ GameObject:
   - component: {fileID: 292522113065621544}
   - component: {fileID: 292522113065621543}
   - component: {fileID: 292522113065621542}
-  - component: {fileID: 292522113065621545}
+  - component: {fileID: 8641195156682809604}
   m_Layer: 0
   m_Name: WarpJumpTunnel_01
   m_TagString: Untagged
@@ -33135,7 +33137,7 @@ MeshRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
---- !u!114 &292522113065621545
+--- !u!114 &8641195156682809604
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -33144,7 +33146,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 292522113065621547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 579b0f7f37f7a0f4ea9b8ecc4c9dca5d, type: 3}
+  m_Script: {fileID: 11500000, guid: 53e0610faafc0d848ac86cf8e96430aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   StartDelay: 2.3
