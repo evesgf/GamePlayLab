@@ -5,6 +5,7 @@ using UnityEngine;
 public class EngineFalme : MonoBehaviour
 {
     public string inputAxis = "Vertical";
+    public bool isInversion = false;
 
     public Vector3 minFalmeScale;
     public Vector3 maxFalmeScale;
@@ -15,6 +16,7 @@ public class EngineFalme : MonoBehaviour
     public ParticleSystem star;
 
     private ParticleSystem.EmissionModule emission;
+    private float value;
 
     // Start is called before the first frame update
     void Start()
@@ -27,7 +29,19 @@ public class EngineFalme : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        falme.localScale = Vector3.Lerp(minFalmeScale, maxFalmeScale, Mathf.Clamp01(Input.GetAxis(inputAxis)));
-        emission.rateOverTime = maxStar * Mathf.Clamp01(Input.GetAxis(inputAxis));
+        value = Input.GetAxis(inputAxis);
+
+        if (isInversion)
+        {
+            if (value > 0) value = 0;
+            falme.localScale = Vector3.Lerp(minFalmeScale, maxFalmeScale, Mathf.Abs(value));
+            emission.rateOverTime = maxStar * value;
+        }
+        else
+        {
+            if (value < 0) value = 0;
+            falme.localScale = Vector3.Lerp(minFalmeScale, maxFalmeScale, Mathf.Abs(value));
+            emission.rateOverTime = maxStar * value;
+        }
     }
 }
