@@ -272,13 +272,13 @@ MonoBehaviour:
   usMouseCtrl: 1
   target: {fileID: 2048515538}
   offset: {x: 0, y: 5, z: 0}
-  distance: 30
+  distance: 50
   xSpeed: 60
   ySpeed: 800
   yMinLimit: -60
   yMaxLimit: 60
   distanceMin: 15
-  distanceMax: 50
+  distanceMax: 60
 --- !u!1 &1881348785
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,11 +11,14 @@ namespace GPL
         public float maxForwardSpeed = 10f;
         public float forwoardAcc = 5f;
         public float forwardDamp = 5f;
-        public float maxRotateSpeed = 10f;
-        public float rotateDamp = 5f;
+
         public float maxUpSpeed = 10f;
         public float upAcc = 5f;
         public float upDamp = 5f;
+
+        public float maxRotateSpeed = 10f;
+        public float rotateAcc = 5f;
+        public float rotateDamp = 5f;
 
         public float avatarUpAngle = 5f;
         public float avatarRotateAngle = 5f;
@@ -23,8 +26,9 @@ namespace GPL
 
         internal Vector3 moveDirection;
         internal float nowForwardSpeed;
-        internal float nowRotateAngle;
         internal float nowUpSpeed;
+        internal float nowRotateSpeed;
+        internal float nowRotateAngle;
 
         internal Vector3 input;
 
@@ -43,7 +47,7 @@ namespace GPL
 
             if (avatar != null)
             {
-                avatar.localRotation = Quaternion.Lerp(avatar.localRotation, Quaternion.Euler(avatarUpAngle * -input.y, 0, avatarRotateAngle * -input.x), avatarAngleStep*Time.deltaTime);
+                avatar.localRotation = Quaternion.Lerp(avatar.localRotation, Quaternion.Euler(avatarUpAngle * -(nowUpSpeed/maxUpSpeed), 0, avatarRotateAngle * -(nowRotateSpeed/maxRotateSpeed)), avatarAngleStep*Time.deltaTime);
             }
         }
 
@@ -57,17 +61,26 @@ namespace GPL
             //transform.Rotate(0, input.x * Time.fixedDeltaTime * rotateSpeed, 0);
             //transform.Translate(0, input.y * Time.fixedDeltaTime * upSpeed, input.z * Time.fixedDeltaTime * forwardSpeed);
 
-            nowRotateAngle += input.x * Time.fixedDeltaTime * maxRotateSpeed;
+            if (input.x > float.Epsilon || input.x < -float.Epsilon)
+            {
+                nowRotateSpeed += rotateAcc * Time.fixedDeltaTime * input.x;
+            }
+            else
+            {
+                nowRotateSpeed = Mathf.Lerp(nowRotateSpeed, 0, rotateDamp * Time.fixedDeltaTime);
+            }
+            nowRotateSpeed = Mathf.Clamp(nowRotateSpeed, -maxRotateSpeed, maxRotateSpeed);
 
+            nowRotateAngle = nowRotateAngle + nowRotateSpeed;
             m_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation,Quaternion.Euler(0, nowRotateAngle, 0),rotateDamp*Time.fixedDeltaTime));
 
             if (input.z > float.Epsilon || input.z < -float.Epsilon)
             {
-                nowForwardSpeed += forwoardAcc * Time.fixedDeltaTime*moveDirection.z;
+                nowForwardSpeed += forwoardAcc * Time.fixedDeltaTime * input.z;
             }
             else
             {
-                nowForwardSpeed = Mathf.Lerp(nowForwardSpeed, 0,forwardDamp* Time.fixedDeltaTime);
+                nowForwardSpeed = Mathf.Lerp(nowForwardSpeed, 0,forwardDamp * Time.fixedDeltaTime);
             }
             nowForwardSpeed = Mathf.Clamp(nowForwardSpeed, -maxForwardSpeed, maxForwardSpeed);
 
