@@ -22,8 +22,12 @@ public class EngineFalme : MonoBehaviour
     void Start()
     {
         falme.localScale = minFalmeScale;
-        emission=star.emission;
-        emission.rateOverTime = minStar;
+
+        if (star != null)
+        {
+            emission = star.emission;
+            emission.rateOverTime = minStar;
+        }
     }
 
     // Update is called once per frame
@@ -35,13 +39,17 @@ public class EngineFalme : MonoBehaviour
         {
             if (value > 0) value = 0;
             falme.localScale = Vector3.Lerp(minFalmeScale, maxFalmeScale, Mathf.Abs(value));
-            emission.rateOverTime = maxStar * value;
+
+            if (star != null)
+                emission.rateOverTime = maxStar * value;
         }
         else
         {
             if (value < 0) value = 0;
             falme.localScale = Vector3.Lerp(minFalmeScale, maxFalmeScale, Mathf.Abs(value));
-            emission.rateOverTime = maxStar * value;
+
+            if (star != null)
+                emission.rateOverTime = maxStar * value;
         }
     }
 }
