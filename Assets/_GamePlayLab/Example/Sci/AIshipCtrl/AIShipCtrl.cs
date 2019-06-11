@@ -19,7 +19,9 @@ namespace GPL
 
         private float targetDistance;
         private float angle;
-        private Vector3 targetPanelPos;
+        private Vector3 targetPlanePos;
+        private float targetPlaneDistance;
+        private float targetHightDistance;
         private bool targetIsRight;
 
         // Start is called before the first frame update
@@ -38,15 +40,31 @@ namespace GPL
                 return;
             }
 
-            targetPanelPos = new Vector3(target.position.x, transform.position.y, target.position.z);
-            Vector3 targetDir = (targetPanelPos - transform.position).normalized;
+            targetPlanePos = new Vector3(target.position.x, transform.position.y, target.position.z);
+            targetPlaneDistance = Vector3.Distance(targetPlanePos,transform.position);
+            targetHightDistance = target.position.y - transform.position.y;
+            Vector3 targetDir = (targetPlanePos - transform.position).normalized;
 
             targetIsRight = Vector3.Cross(transform.forward, targetDir).y > 0;
             angle = Vector3.Angle(transform.forward, targetDir);
 
             movement.x = angle > stopDegrees ? (targetIsRight ? 1 : -1) : 0;
 
-            movement.z = targetDistance > stopDistance ? 1 : 0;
+            var y = 0f;
+            var z = 0f;
+            if (targetDistance > stopDistance)
+            {
+                var t = targetPlaneDistance / targetHightDistance;
+                z = targetPlaneDistance/(targetPlaneDistance+ targetHightDistance);
+                y = 1-targetHightDistance / (targetPlaneDistance + targetHightDistance);
+                if (targetHightDistance < 0) y = -y;
+            }
+            else
+            {
+                y = z = 0;
+            }
+            movement.y =y;
+            movement.z = z;
         }
 
         private void FixedUpdate()

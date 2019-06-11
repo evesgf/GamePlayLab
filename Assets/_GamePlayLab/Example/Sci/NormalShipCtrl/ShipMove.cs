@@ -56,6 +56,8 @@ namespace GPL
 
         public void OnMove(Vector3 input)
         {
+            this.input = input;
+
             //旋转计算
             if (input.x > float.Epsilon || input.x < -float.Epsilon)
             {
@@ -85,7 +87,7 @@ namespace GPL
 
             if (input.y > float.Epsilon || input.y < -float.Epsilon)
             {
-                nowUpSpeed += upAcc * Time.fixedDeltaTime * input.y;
+                nowUpSpeed = Mathf.Lerp(nowUpSpeed, nowUpSpeed + upAcc * input.y, Time.fixedDeltaTime);
             }
             else
             {
