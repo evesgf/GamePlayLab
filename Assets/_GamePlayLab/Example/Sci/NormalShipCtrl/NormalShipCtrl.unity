@@ -278,7 +278,7 @@ MonoBehaviour:
   usMouseCtrl: 1
   target: {fileID: 2048515538}
   offset: {x: 0, y: 5, z: 0}
-  distance: 25
+  distance: 35
   xSpeed: 60
   ySpeed: 800
   yMinLimit: -60
