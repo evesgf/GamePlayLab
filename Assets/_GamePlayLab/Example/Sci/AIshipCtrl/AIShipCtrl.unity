@@ -584,11 +584,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8996135156442105363, guid: 70653ef9573313a489d14b534ac53743,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3805574285952905116, guid: 70653ef9573313a489d14b534ac53743,
         type: 3}
       propertyPath: maxRotateSpeed
@@ -623,6 +618,31 @@ PrefabInstance:
         type: 3}
       propertyPath: upDamp
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8996135156442105363, guid: 70653ef9573313a489d14b534ac53743,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5740260775519007686, guid: 70653ef9573313a489d14b534ac53743,
+        type: 3}
+      propertyPath: maxFalmeScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3187478621133366931, guid: 70653ef9573313a489d14b534ac53743,
+        type: 3}
+      propertyPath: maxFalmeScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3403456153453601447, guid: 70653ef9573313a489d14b534ac53743,
+        type: 3}
+      propertyPath: maxFalmeScale.x
+      value: 3.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5760833632571807369, guid: 70653ef9573313a489d14b534ac53743,
+        type: 3}
+      propertyPath: maxFalmeScale.x
+      value: 3.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 70653ef9573313a489d14b534ac53743, type: 3}
@@ -737,6 +757,11 @@ PrefabInstance:
         type: 3}
       propertyPath: forwardDamp
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6335351977410953640, guid: f0fb234a2d0f5be42a62abe6cd1a538f,
+        type: 3}
+      propertyPath: m_IsKinematic
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 772586170991527967, guid: f0fb234a2d0f5be42a62abe6cd1a538f,
         type: 3}
