@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace GPL
 {
-    [RequireComponent(typeof(Rigidbody))]
     public class NormalShipCtrl : MonoBehaviour
     {
         internal Vector3 input;
