@@ -973,6 +973,16 @@ PrefabInstance:
       propertyPath: realTargetIcon
       value: 
       objectReference: {fileID: 1394144958}
+    - target: {fileID: 2028756621117619284, guid: 537f6b2b98f641448967cb43dd020279,
+        type: 3}
+      propertyPath: HeadingTrackingSpeed
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2028756621117619284, guid: 537f6b2b98f641448967cb43dd020279,
+        type: 3}
+      propertyPath: ElevationTrackingSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6833323538614993635, guid: 537f6b2b98f641448967cb43dd020279,
         type: 3}
       propertyPath: m_LocalRotation.x

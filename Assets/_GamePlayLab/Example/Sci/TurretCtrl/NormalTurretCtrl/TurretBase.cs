@@ -63,20 +63,20 @@ namespace GPL
             swivel.transform.rotation = Quaternion.Slerp(swivel.transform.rotation, targetRotationY, ElevationTrackingSpeed * Time.deltaTime);
             swivel.transform.localEulerAngles = new Vector3(0f, swivel.transform.localEulerAngles.y, 0f);
 
-            if (!fullAccess)
-            {
-                //checking for turning left
-                if (swivel.transform.localEulerAngles.y >= 180f && swivel.transform.localEulerAngles.y < (360f - HeadingLimit.y))
-                {
-                    swivel.transform.localEulerAngles = new Vector3(0f, 360f - HeadingLimit.y, 0f);
-                }
+            //if (!fullAccess)
+            //{
+            //    //checking for turning left
+            //    if (swivel.transform.localEulerAngles.y >= 180f && swivel.transform.localEulerAngles.y < (360f - HeadingLimit.y))
+            //    {
+            //        swivel.transform.localEulerAngles = new Vector3(0f, 360f - HeadingLimit.y, 0f);
+            //    }
 
-                //right
-                else if (swivel.transform.localEulerAngles.y < 180f && swivel.transform.localEulerAngles.y > -HeadingLimit.x)
-                {
-                    swivel.transform.localEulerAngles = new Vector3(0f, -HeadingLimit.x, 0f);
-                }
-            }
+            //    //right
+            //    else if (swivel.transform.localEulerAngles.y < 180f && swivel.transform.localEulerAngles.y > -HeadingLimit.x)
+            //    {
+            //        swivel.transform.localEulerAngles = new Vector3(0f, -HeadingLimit.x, 0f);
+            //    }
+            //}
 
             var realPos = Camera.main.WorldToScreenPoint(barrel.position + barrel.forward * Vector3.Distance(barrel.position, target));
             realTargetIcon.position = new Vector3(realPos.x, realPos.y, 0);
