@@ -4,8 +4,6 @@ using UnityEngine;
 
 namespace GPL
 {
-
-    [RequireComponent(typeof(Rigidbody))]
     public class SimpleShipCtrl : MonoBehaviour
     {
         public Transform avatar;
@@ -24,34 +22,33 @@ namespace GPL
 
         internal Vector3 input;
 
-        private Rigidbody m_rigidbody;
 
         // Start is called before the first frame update
         void Start()
         {
-            m_rigidbody = GetComponent<Rigidbody>();
+
         }
 
         // Update is called once per frame
         void Update()
         {
             input.Set(Input.GetAxis("Horizontal"), Input.GetAxis("UpDown"), Input.GetAxis("Vertical"));
-        }
 
-        private void FixedUpdate()
-        {
             OnMove(input);
+
+            if (avatar != null)
+            {
+                //模拟Roll和Pitch旋转
+                avatar.localRotation = Quaternion.Lerp(avatar.localRotation, Quaternion.Euler(avatarUpAngle * -input.y, 0, avatarRotateAngle * -input.x), avatarAngleStep * Time.deltaTime);
+            }
         }
 
         public void OnMove(Vector3 input)
         {
-            transform.Rotate(0, input.x * Time.fixedDeltaTime * rotateSpeed, 0);
-            transform.Translate(0, input.y * Time.fixedDeltaTime * upSpeed, input.z * Time.fixedDeltaTime * forwardSpeed);
-
-            if (avatar != null)
-            {
-                avatar.localRotation = Quaternion.Lerp(avatar.localRotation, Quaternion.Euler(avatarUpAngle * -input.y, 0, avatarRotateAngle * -input.x), avatarAngleStep*Time.fixedDeltaTime);
-            }
+            //Yaw旋转
+            transform.Rotate(0, input.x * Time.deltaTime * rotateSpeed, 0);
+            //上下前后移动
+            transform.Translate(0, input.y * Time.deltaTime * upSpeed, input.z * Time.deltaTime * forwardSpeed);
         }
     }
 }

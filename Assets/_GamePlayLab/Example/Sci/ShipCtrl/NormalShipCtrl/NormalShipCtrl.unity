@@ -112,12 +112,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!4 &226317381 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2417244750729627198, guid: 70653ef9573313a489d14b534ac53743,
-    type: 3}
-  m_PrefabInstance: {fileID: 2417244751859880560}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &602189464
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,11 +366,6 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 5109513928076124285, guid: 70653ef9573313a489d14b534ac53743,
-        type: 3}
-      propertyPath: m_Convex
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8708859983078543380, guid: 70653ef9573313a489d14b534ac53743,
         type: 3}
       propertyPath: forwardSpeed
@@ -395,6 +384,11 @@ PrefabInstance:
     - target: {fileID: 8708859983078543380, guid: 70653ef9573313a489d14b534ac53743,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5109513928076124285, guid: 70653ef9573313a489d14b534ac53743,
+        type: 3}
+      propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -468,29 +462,6 @@ Transform:
   m_Father: {fileID: 725003490}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1978963445 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2417244750149111713, guid: 70653ef9573313a489d14b534ac53743,
-    type: 3}
-  m_PrefabInstance: {fileID: 2417244751859880560}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1978963448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1978963445}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b8e256d3bee8559429e38729f2bf8ba0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  avatar: {fileID: 226317381}
-  jumpOutSpeed: 1
-  jumpOut: {fileID: 4859279561781288043, guid: 208740b90e570cb45a75696f437038e9, type: 3}
-  jumpInSpeed: 1
-  jumpIn: {fileID: 1161802571323170947, guid: 03186c2ca69388241b0949fef646578e, type: 3}
 --- !u!4 &2048515538 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2417244750149111714, guid: 70653ef9573313a489d14b534ac53743,
