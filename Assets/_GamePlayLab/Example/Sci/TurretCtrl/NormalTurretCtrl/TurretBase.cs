@@ -33,6 +33,11 @@ namespace GPL
             Rotate();
         }
 
+        public float GetAngleToTarget()
+        {
+            return Vector3.Angle(barrel.forward, target - barrel.position);
+        }
+
         private void Rotate()
         {
             //finding position for turning just for X axis (down-up)

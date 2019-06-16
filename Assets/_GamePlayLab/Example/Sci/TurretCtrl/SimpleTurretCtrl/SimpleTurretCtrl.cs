@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GPL
 {
@@ -8,6 +9,7 @@ namespace GPL
     public class SimpleTurretCtrl : MonoBehaviour
     {
         public Transform realTargetIcon;
+        public Text txtAngle;
         public bool debugShow = false;
         public bool useSlerp = true;
 
@@ -28,7 +30,13 @@ namespace GPL
         void Update()
         {
             Rotate();
+            txtAngle.text = GetAngleToTarget().ToString("f2") ;
         }
+        public float GetAngleToTarget()
+        {
+            return Vector3.Angle(barrel.forward, target - barrel.position);
+        }
+
 
         private void Rotate()
         {

@@ -14,7 +14,6 @@ namespace GPL
         // Start is called before the first frame update
         void Start()
         {
-
         }
 
         // Update is called once per frame
@@ -22,12 +21,26 @@ namespace GPL
         {
             if (Input.GetMouseButtonDown(0))
             {
-                var m = Instantiate(missilePrefab, muzzlePos.position, muzzlePos.rotation);
-                var mBase=m.GetComponent<MissileBase>();
-                mBase.Init();
-                if (target != null) mBase.target = target;
-                mBase.missileType = missileType;
+                StartCoroutine(CreateMissileList());
             }
+        }
+
+        IEnumerator CreateMissileList()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                CreateMissile();
+                yield return new WaitForSeconds(0.2f);
+            }
+        }
+
+        private void CreateMissile()
+        {
+            var m = Instantiate(missilePrefab, muzzlePos.position, muzzlePos.rotation);
+            var mBase = m.GetComponent<MissileBase>();
+            mBase.Init();
+            if (target != null) mBase.target = target;
+            mBase.missileType = missileType;
         }
     }
 }
