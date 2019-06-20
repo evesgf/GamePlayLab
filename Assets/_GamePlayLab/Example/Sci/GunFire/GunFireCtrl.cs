@@ -6,6 +6,8 @@ namespace GPL
 {
     public class GunFireCtrl : MonoBehaviour
     {
+        public LayerMask targetLayer;
+
         public Bullet_01 bullet;
 
         public float fireInterval = 0.1f;
@@ -15,6 +17,8 @@ namespace GPL
         private float lastFireTime;
         private int muzzleFlag = 0;
 
+        private RaycastHit hit;
+
         // Start is called before the first frame update
         void Start()
         {
@@ -23,6 +27,17 @@ namespace GPL
 
         private void Update()
         {
+            //CheckFire
+            //CheckTarget
+            if (Physics.Raycast(Muzzles[muzzleFlag].forward, Muzzles[muzzleFlag].forward, out hit, 100f, targetLayer))
+            {
+
+            }
+            else
+            {
+
+            }
+
             if (Input.GetMouseButton(0))
             {
                 Fire();

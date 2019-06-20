@@ -7,6 +7,8 @@ namespace GPL
 
     public class SimpleTurretLauncher : MonoBehaviour
     {
+        public LayerMask targetLayer;
+
         public Transform target;
         public Transform targetIcon;
         public SimpleTurretCtrl[] turrets;
@@ -40,7 +42,17 @@ namespace GPL
             }
             else
             {
-                targetPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
+                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit, Camera.main.farClipPlane))
+                {
+                    targetPos = hit.point;
+                }
+                else
+                {
+                    targetPos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.farClipPlane));
+                }
+
             }
             foreach (var turret in turrets)
             {
