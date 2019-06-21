@@ -178,18 +178,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &316359401 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6765197031714914569, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3025143235734857407}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &573461982 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7483517663091766006, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-    type: 3}
-  m_PrefabInstance: {fileID: 3025143235734857407}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &602189464
 GameObject:
   m_ObjectHideFlags: 0
@@ -833,7 +821,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2014227739}
   - component: {fileID: 2014227738}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: TurretLauncher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -852,6 +840,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fa42e10b859c36b40bd69623f9ed3a5b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 51
   target: {fileID: 0}
   targetIcon: {fileID: 766581642}
   turrets:
@@ -1012,6 +1003,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleTurretCtrl_01
       objectReference: {fileID: 0}
+    - target: {fileID: 3881224211461118700, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3988224829626603981, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1067,43 +1063,46 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+    - target: {fileID: 4747810536260782878, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
         type: 3}
-      propertyPath: barrel
-      value: 
-      objectReference: {fileID: 573461982}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: swivel
-      value: 
-      objectReference: {fileID: 316359401}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: switelRotateSpeed
+      propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+    - target: {fileID: 4902654040041431378, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
         type: 3}
-      propertyPath: barrelRotateSpeed
+      propertyPath: m_Layer
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+    - target: {fileID: 4902654040041431382, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
         type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1555980239614881749, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7305469757860878644, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4902654040041431380, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7501772248562471379, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529829714, guid: f3e3c9a775bc4d14a9639f61ca2eb21f, type: 3}
       propertyPath: realTargetIcon
       value: 
       objectReference: {fileID: 1394144958}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: useSlerp
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: debugShow
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8011327492583905952, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
+    - target: {fileID: 1529829714, guid: f3e3c9a775bc4d14a9639f61ca2eb21f, type: 3}
       propertyPath: txtAngle
       value: 
       objectReference: {fileID: 1818326844}
