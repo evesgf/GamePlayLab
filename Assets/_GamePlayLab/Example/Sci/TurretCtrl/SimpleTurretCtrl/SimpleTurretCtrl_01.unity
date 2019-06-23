@@ -1003,11 +1003,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: SimpleTurretCtrl_01
       objectReference: {fileID: 0}
-    - target: {fileID: 3881224211461118700, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 3988224829626603981, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1062,41 +1057,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4747810536260782878, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4902654040041431378, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4902654040041431382, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1555980239614881749, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7305469757860878644, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4902654040041431380, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7501772248562471379, guid: f3e3c9a775bc4d14a9639f61ca2eb21f,
-        type: 3}
-      propertyPath: m_Layer
-      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1529829714, guid: f3e3c9a775bc4d14a9639f61ca2eb21f, type: 3}
       propertyPath: realTargetIcon

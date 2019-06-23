@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GPL
 {
-    public class FireCtrl : MonoBehaviour
+    public class FireCtrl_01 : MonoBehaviour
     {
         public LayerMask targetLayer;
 

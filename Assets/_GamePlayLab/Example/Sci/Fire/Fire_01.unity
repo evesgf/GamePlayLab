@@ -1615,6 +1615,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9032855774408796832, guid: 6f99e44bd33b03340bf3a5c6ad598481,
+        type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 4477527515506027794, guid: 6f99e44bd33b03340bf3a5c6ad598481,
         type: 3}
       propertyPath: realTargetIcon

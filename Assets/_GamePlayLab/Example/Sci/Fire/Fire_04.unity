@@ -1552,7 +1552,7 @@ PrefabInstance:
     - target: {fileID: 5528375324883293163, guid: e9e94cc9af66cb64988f694c77936f34,
         type: 3}
       propertyPath: m_Name
-      value: GunFireCtrl_02
+      value: GunFireCtrl_04
       objectReference: {fileID: 0}
     - target: {fileID: 5637760783802978506, guid: e9e94cc9af66cb64988f694c77936f34,
         type: 3}

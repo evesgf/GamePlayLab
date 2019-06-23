@@ -6,6 +6,8 @@ namespace GPL
 {
     public class NormalTurretCtrl : MonoBehaviour
     {
+        public LayerMask targetLayer;
+
         public bool debugShow = false;
 
         public Transform swivel;                //水平旋转根节点
@@ -42,7 +44,19 @@ namespace GPL
 
         public Vector3 GetTargetDistance()
         {
-            return Camera.main.WorldToScreenPoint(muzzle.position + muzzle.forward * Vector3.Distance(barrel.position, target));
+            Vector3 targetPos;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(muzzle.position,muzzle.forward, out hit, Camera.main.farClipPlane))
+            {
+                targetPos = Camera.main.WorldToScreenPoint(hit.point);
+            }
+            else
+            {
+                targetPos=Camera.main.WorldToScreenPoint(muzzle.position + muzzle.forward * Vector3.Distance(barrel.position, target));
+            }
+
+            return targetPos;
         }
 
         private void Rotate()
