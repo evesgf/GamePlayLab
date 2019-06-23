@@ -302,6 +302,26 @@ PrefabInstance:
       propertyPath: targetLayer.m_Bits
       value: 4294967295
       objectReference: {fileID: 0}
+    - target: {fileID: 5420358359220037032, guid: 6f99e44bd33b03340bf3a5c6ad598481,
+        type: 3}
+      propertyPath: muzzle
+      value: 
+      objectReference: {fileID: 1861525571}
+    - target: {fileID: 2599994105197625206, guid: 6f99e44bd33b03340bf3a5c6ad598481,
+        type: 3}
+      propertyPath: targetLayer.m_Bits
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4804437822567533882, guid: 6f99e44bd33b03340bf3a5c6ad598481,
+        type: 3}
+      propertyPath: txtAngle
+      value: 
+      objectReference: {fileID: 1818326844}
+    - target: {fileID: 4804437822567533882, guid: 6f99e44bd33b03340bf3a5c6ad598481,
+        type: 3}
+      propertyPath: realTargetIcon
+      value: 
+      objectReference: {fileID: 1394144958}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6f99e44bd33b03340bf3a5c6ad598481, type: 3}
 --- !u!114 &140284730 stripped
@@ -1389,6 +1409,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1828956481}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!4 &1861525571 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6513846271019684053, guid: 6f99e44bd33b03340bf3a5c6ad598481,
+    type: 3}
+  m_PrefabInstance: {fileID: 140284729}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1881348785
 GameObject:
   m_ObjectHideFlags: 0
