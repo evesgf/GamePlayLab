@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GPL
 {
-    public class TurretBase : MonoBehaviour
+    public class NormalTurretCtrl : MonoBehaviour
     {
         public Transform realTargetIcon;
         public bool debugShow = false;

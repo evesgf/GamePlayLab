@@ -4,10 +4,10 @@ using UnityEngine;
 
 namespace GPL
 {
-    public class TurretLauncher : MonoBehaviour
+    public class NormalTurretLauncher : MonoBehaviour
     {
         public Transform targetIcon;
-        public TurretBase[] turrets;
+        public NormalTurretCtrl[] turrets;
 
         private Vector3 target;
 
