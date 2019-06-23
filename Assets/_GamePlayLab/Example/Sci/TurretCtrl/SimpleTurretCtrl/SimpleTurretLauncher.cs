@@ -63,5 +63,4 @@ namespace GPL
             targetIcon.position = new Vector3(pos.x, pos.y, 0);
         }
     }
-
 }

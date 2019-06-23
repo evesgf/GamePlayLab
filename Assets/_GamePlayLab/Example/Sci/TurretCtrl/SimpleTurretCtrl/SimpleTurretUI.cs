@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace GPL
 {
-    public class TurretUI : MonoBehaviour
+    public class SimpleTurretUI : MonoBehaviour
     {
         public Transform realTargetIcon;
         public Text txtAngle;

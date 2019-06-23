@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GPL
 {
-    public class GunFireCtrl : MonoBehaviour
+    public class FireCtrl : MonoBehaviour
     {
         public LayerMask targetLayer;
 
@@ -27,17 +27,6 @@ namespace GPL
 
         private void Update()
         {
-            //CheckFire
-            //CheckTarget
-            if (Physics.Raycast(Muzzles[muzzleFlag].forward, Muzzles[muzzleFlag].forward, out hit, 100f, targetLayer))
-            {
-
-            }
-            else
-            {
-
-            }
-
             if (Input.GetMouseButton(0))
             {
                 Fire();

@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1117157752528868562}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.73999995, y: -0, z: 0}
+  m_LocalPosition: {x: 0.89, y: -0, z: 0}
   m_LocalScale: {x: 1.0000317, y: 1.0000309, z: 1.0000309}
   m_Children: []
   m_Father: {fileID: 6185229228428529905}
@@ -39,8 +39,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2089529603618612961}
+  - component: {fileID: 2772945805324019185}
   - component: {fileID: 2194474671197046956}
-  - component: {fileID: 3145347903149549182}
+  - component: {fileID: 6704785539489599262}
   m_Layer: 2
   m_Name: NormalTurretCtrl_01
   m_TagString: Untagged
@@ -55,7 +56,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2196179487993488832}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -63,6 +64,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2772945805324019185
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2196179487993488832}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e707d44864c3c54e88f44e52ba74937, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  bullet: {fileID: 2142083587472365830, guid: 3eb8b773107bf68439324334c2d33612, type: 3}
+  fireInterval: 0.1
+  Muzzles:
+  - {fileID: 1657533914995597707}
+  - {fileID: 3571076051693112025}
 --- !u!114 &2194474671197046956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -75,15 +96,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8c1c1b53da133cc4bb13058e37fd1120, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  realTargetIcon: {fileID: 0}
-  debugShow: 0
-  swivel: {fileID: 0}
-  HeadingTrackingSpeed: 1
-  HeadingLimit: {x: 0, y: 0}
-  barrel: {fileID: 0}
-  ElevationTrackingSpeed: 1
-  ElevationLimit: {x: 0, y: 0}
---- !u!114 &3145347903149549182
+  debugShow: 1
+  swivel: {fileID: 8522019527271513637}
+  swivelRotateSpeed: 50
+  HeadingLimit: {x: -45, y: 45}
+  barrel: {fileID: 5511366814680141274}
+  barrelRotateSpeed: 50
+  ElevationLimit: {x: -45, y: 45}
+  muzzle: {fileID: 6185229228428529905}
+--- !u!114 &6704785539489599262
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -92,7 +113,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2196179487993488832}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f1f99fd319be5a049a2afb29c9706c82, type: 3}
+  m_Script: {fileID: 11500000, guid: 5b2e8d703a1001f4c878ef44175ef1ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   realTargetIcon: {fileID: 0}
@@ -315,6 +336,18 @@ PrefabInstance:
 --- !u!4 &8047717714147066462 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7922621612450248462, guid: ac947da561ad0c44f9b6bb735bd8d199,
+    type: 3}
+  m_PrefabInstance: {fileID: 170559534311880016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &8522019527271513637 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8365921630089825141, guid: ac947da561ad0c44f9b6bb735bd8d199,
+    type: 3}
+  m_PrefabInstance: {fileID: 170559534311880016}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &5511366814680141274 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5629987807441582218, guid: ac947da561ad0c44f9b6bb735bd8d199,
     type: 3}
   m_PrefabInstance: {fileID: 170559534311880016}
   m_PrefabAsset: {fileID: 0}
