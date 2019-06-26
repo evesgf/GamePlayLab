@@ -31,7 +31,6 @@ namespace GPL
         public void Fire()
         {
             var b = Instantiate(bullet, Muzzle.position, Muzzle.rotation);
-            b.GetComponent<Bullet_04>();
             b.Init();
         }
     }

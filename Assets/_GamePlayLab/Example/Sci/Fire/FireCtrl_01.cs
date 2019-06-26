@@ -41,7 +41,6 @@ namespace GPL
             muzzleFlag = (muzzleFlag + 1) < Muzzles.Length ? muzzleFlag + 1 : 0;
 
             var b = Instantiate(bullet, firePos.position, firePos.rotation);
-            b.GetComponent<Bullet_01>();
             b.Init();
 
             lastFireTime = Time.time;
