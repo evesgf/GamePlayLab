@@ -21,11 +21,15 @@ namespace GPL
         // Update is called once per frame
         void Update()
         {
-            txtAngle.text = normalleTurretCtrl.GetAngleToTarget().ToString("f2");
+            if (txtAngle != null)
+                txtAngle.text = normalleTurretCtrl.GetAngleToTarget().ToString("f2");
 
-            //显示炮管真实指向
-            var screenPos = normalleTurretCtrl.GetTargetDistance();
-            realTargetIcon.position = new Vector3(screenPos.x, screenPos.y, 0);
+            if (realTargetIcon != null)
+            {
+                //显示炮管真实指向
+                var screenPos = normalleTurretCtrl.GetTargetDistance();
+                realTargetIcon.position = new Vector3(screenPos.x, screenPos.y, 0);
+            }
         }
     }
 }
