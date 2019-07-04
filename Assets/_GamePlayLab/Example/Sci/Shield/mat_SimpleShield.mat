@@ -28,10 +28,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
-    - _ShieldBGPower: 1.06
-    - _ShieldPower: 1.11
+    - _ShieldBGPower: 5
+    - _ShieldPower: 1.5
     - __dirty: 0
     m_Colors:
     - _ShieldBGColor: {r: 0, g: 0.8941177, b: 2, a: 0}
-    - _ShieldColor: {r: 0, g: 1.0571524, b: 1.945098, a: 1}
+    - _ShieldColor: {r: 0, g: 0.5861072, b: 1.0646956, a: 1}
     - _ShieldMapScale: {r: 1, g: 1, b: 1, a: 1}

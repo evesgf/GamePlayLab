@@ -29,7 +29,7 @@ namespace GPL
             }
             else
             {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                Ray ray = Camera.main.ScreenPointToRay(new Vector3(Screen.width * 0.5f, Screen.height * 0.5f,0));
                 RaycastHit hit;
                 if (Physics.Raycast(ray, out hit, Camera.main.farClipPlane))
                 {

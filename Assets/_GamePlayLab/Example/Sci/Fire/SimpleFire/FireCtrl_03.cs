@@ -13,41 +13,66 @@ namespace GPL
 
         public Transform Muzzle;
 
+        internal bool isFire;
+
         private NormalTurretCtrl normalTurretCtrl;
         private Bullet_03 bulletObj;
-        private RaycastHit hit;
 
         // Start is called before the first frame update
         void Start()
         {
             normalTurretCtrl = GetComponent<NormalTurretCtrl>();
+            isFire = false;
         }
 
         private void Update()
         {
             if (Input.GetMouseButtonDown(0))
             {
-                if(normalTurretCtrl.GetAngleToTarget()<= angleLimit)
-                    FireStart();
+                FireStart();
             }
 
             if (Input.GetMouseButtonUp(0))
             {
+                if (isFire)
+                {
+                    FireEnd();
+                }
+            }
+
+            if (normalTurretCtrl.GetAngleToTarget() > angleLimit)
+            {
+                if (isFire)
+                {
+                    foreach (var turret in normalTurretCtrl.NormalShipCtrl_Fire.turrets)
+                    {
+                        var t = turret.GetComponentInChildren<FireCtrl_03>();
+                        t.FireStart();
+                    }
+                }
+
                 FireEnd();
             }
         }
 
         public void FireStart()
         {
+            if (normalTurretCtrl.GetAngleToTarget() > angleLimit || bulletObj!=null) return;
             bulletObj = Instantiate(bullet, Muzzle.position, Muzzle.rotation);
             bulletObj.transform.parent = Muzzle;
-            bulletObj.Init();
+            bulletObj.Init(normalTurretCtrl);
+            isFire = true;
         }
 
         public void FireEnd()
         {
-            if(bulletObj!=null)
+            if (bulletObj != null)
+            {
                 Destroy(bulletObj.gameObject);
+                bulletObj = null;
+            }
+
+            isFire = false;
         }
     }
 }

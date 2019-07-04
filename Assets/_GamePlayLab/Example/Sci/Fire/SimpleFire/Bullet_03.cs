@@ -17,16 +17,18 @@ namespace GPL
 
         private float nowLifeTime;
         private AudioSource audioSource;
+        private NormalTurretCtrl normalTurretCtrl;
 
         private void Awake()
         {
             audioSource = GetComponent<AudioSource>();
         }
 
-        public void Init()
+        public void Init(NormalTurretCtrl normalTurretCtrl)
         {
             nowLifeTime = 0;
             audioSource.Play();
+            this.normalTurretCtrl = normalTurretCtrl;
         }
 
         private void OnFly(float time)
@@ -54,6 +56,8 @@ namespace GPL
                 line.material.SetTextureScale("_MainTex", new Vector2(length * (lineScale / 10f), 1f));
                 line.material.SetTextureOffset("_MainTex", new Vector2(Time.time * uvSpeed, 0f));
             }
+
+            transform.LookAt(this.normalTurretCtrl.target);
 
             nowLifeTime += time;
         }

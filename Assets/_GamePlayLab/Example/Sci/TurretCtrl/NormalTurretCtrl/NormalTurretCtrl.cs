@@ -6,6 +6,8 @@ namespace GPL
 {
     public class NormalTurretCtrl : MonoBehaviour
     {
+        public NormalShipCtrl_Fire NormalShipCtrl_Fire;
+
         public LayerMask targetLayer;
 
         public bool debugShow = false;
