@@ -33,5 +33,5 @@ Material:
     - __dirty: 0
     m_Colors:
     - _ShieldBGColor: {r: 0, g: 0.8941177, b: 2, a: 0}
-    - _ShieldColor: {r: 0, g: 0.5861072, b: 1.0646956, a: 1}
+    - _ShieldColor: {r: 0, g: 0.55982924, b: 1, a: 1}
     - _ShieldMapScale: {r: 1, g: 1, b: 1, a: 1}
