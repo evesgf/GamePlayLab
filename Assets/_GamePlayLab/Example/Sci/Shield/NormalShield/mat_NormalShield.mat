@@ -31,11 +31,11 @@ Material:
     - _HitSize: 0.15
     - _HitTime: 0
     - _ShieldBGPower: 5
-    - _ShieldPower: 2.06
+    - _ShieldPower: 1.5
     - __dirty: 0
     m_Colors:
-    - _HitColor: {r: 0.95686275, g: 4, b: 3.4352942, a: 1}
+    - _HitColor: {r: 0.48113203, g: 2, b: 1.71222, a: 0}
     - _HitPosition: {r: 1, g: 1, b: 1, a: 0}
     - _ShieldBGColor: {r: 0, g: 0.8941177, b: 2, a: 0}
-    - _ShieldColor: {r: 0, g: 1.0235397, b: 1.8443027, a: 1}
+    - _ShieldColor: {r: 0, g: 0.5908782, b: 1.0646956, a: 1}
     - _ShieldMapScale: {r: 1, g: 1, b: 1, a: 1}

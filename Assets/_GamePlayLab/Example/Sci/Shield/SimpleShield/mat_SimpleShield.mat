@@ -10,7 +10,7 @@ Material:
   m_Name: mat_SimpleShield
   m_Shader: {fileID: 4800000, guid: 8e955bebb0484fe4f85d02c4a13f11fe, type: 3}
   m_ShaderKeywords: 
-  m_LightmapFlags: 4
+  m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -29,9 +29,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _ShieldBGPower: 5
-    - _ShieldPower: 2.48
+    - _ShieldPower: 1.5
     - __dirty: 0
     m_Colors:
     - _ShieldBGColor: {r: 0, g: 0.8941177, b: 2, a: 0}
-    - _ShieldColor: {r: 0, g: 2.3635128, b: 4.2587824, a: 1}
+    - _ShieldColor: {r: 0, g: 0.55982924, b: 1, a: 1}
     - _ShieldMapScale: {r: 1, g: 1, b: 1, a: 1}
