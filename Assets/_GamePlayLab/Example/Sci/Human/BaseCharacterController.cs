@@ -7,7 +7,16 @@ namespace GPL
     public class BaseCharacterController : MonoBehaviour
     {
         #region EDITOR EXPOSED FIELDS
-
+        [Header("Movement")]
+        [Tooltip("Maximum movement speed (in m/s).")]
+        [SerializeField]
+        private float _speed = 5.0f;
+        [Tooltip("The rate of change of velocity.")]
+        [SerializeField]
+        private float _acceleration = 50.0f;
+        [Tooltip("The rate at which the character's slows down.")]
+        [SerializeField]
+        private float _deceleration = 20.0f;
         #endregion
 
         #region FIELDS
@@ -26,7 +35,7 @@ namespace GPL
         /// <summary>
         /// 运动输入命令，期望的运动方向
         /// </summary>
-        public Vector3 moveDirction
+        public Vector3 moveDirection
         {
             get { return _moveDireciton; }
             set { _moveDireciton = Vector3.ClampMagnitude(value,1.0f); }
@@ -60,6 +69,45 @@ namespace GPL
                 return _isJumping;
             }
         }
+
+        /// <summary>
+        /// The rate of change of velocity.
+        /// </summary>
+        public float acceleration
+        {
+            get { return _acceleration; }
+            set { _acceleration = Mathf.Max(0.0f, value); }
+        }
+        /// <summary>
+        /// The rate at which the character's slows down.
+        /// </summary>
+
+        public float deceleration
+        {
+            get { return _deceleration; }
+            set { _deceleration = Mathf.Max(0.0f, value); }
+        }
+
+        /// <summary>
+        /// Calculate the desired movement velocity.
+        /// Eg: Convert the input (moveDirection) to movement velocity vector,
+        ///     use navmesh agent desired velocity, etc.
+        /// </summary>
+
+        protected virtual Vector3 CalcDesiredVelocity()
+        {
+            return moveDirection * speed;
+        }
+
+        /// <summary>
+        /// Maximum movement speed (in m/s).
+        /// </summary>
+
+        public float speed
+        {
+            get { return _speed; }
+            set { _speed = Mathf.Max(0.0f, value); }
+        }
         #endregion
 
         #region METHODS
@@ -68,7 +116,7 @@ namespace GPL
         /// </summary>
         protected virtual void HandleInput()
         {
-            moveDirction = new Vector3
+            moveDirection = new Vector3
             {
                 x = Input.GetAxisRaw("Horizontal"),
                 y = 0.0f,
@@ -84,8 +132,9 @@ namespace GPL
         /// </summary>
         protected void Move()
         {
+            var desiredVelocity = CalcDesiredVelocity();
             //移动逻辑，矢量运动或RootMotion
-
+            movement.Move(desiredVelocity,speed, acceleration,deceleration);
             //跳跃逻辑
 
             //RootMotion状态更新

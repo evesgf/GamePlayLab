@@ -2,17 +2,53 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseGroundDetection : MonoBehaviour
+namespace GPL
 {
-    // Start is called before the first frame update
-    void Start()
+    public class BaseGroundDetection : MonoBehaviour
     {
-        
-    }
+        #region EDITOR EXPOSED FIELDS
+        [Tooltip("Layers to be considered as 'ground' (walkables).")]
+        [SerializeField]
+        private LayerMask _groundMask = 1;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        #endregion
+
+        #region FIELDS
+
+        #endregion
+
+        #region PROPERTIES
+        /// <summary>
+        /// Layers to be considered as 'ground' (walkables).
+        /// </summary>
+
+        public LayerMask groundMask
+        {
+            get { return _groundMask; }
+            set { _groundMask = value; }
+        }
+        /// <summary>
+        /// Is this character standing on ANY 'ground'?
+        /// </summary>
+
+        //public bool isOnGround
+        //{
+        //    get { return false; }
+        //}
+        #endregion
+
+        #region METHODS
+        /// <summary>
+        /// Perform ground detection.
+        /// </summary>
+        public void DetectGround()
+        {
+
+        }
+        #endregion
+
+        #region MONOBEHAVIOUR
+
+        #endregion
     }
 }
