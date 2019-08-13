@@ -17,6 +17,10 @@ namespace GPL
         [Tooltip("The rate at which the character's slows down.")]
         [SerializeField]
         private float _deceleration = 20.0f;
+        [Header("Jump")]
+        [Tooltip("The initial jump height (in meters).")]
+        [SerializeField]
+        private float _baseJumpHeight = 1.5f;
         #endregion
 
         #region FIELDS
@@ -24,6 +28,7 @@ namespace GPL
         private bool _jump;
         private bool _canJump=true;
         private bool _isJumping;
+
         #endregion
 
         #region PROPERTIES
@@ -108,6 +113,25 @@ namespace GPL
             get { return _speed; }
             set { _speed = Mathf.Max(0.0f, value); }
         }
+
+        /// <summary>
+        /// The initial jump height (in meters).
+        /// </summary>
+
+        public float baseJumpHeight
+        {
+            get { return _baseJumpHeight; }
+            set { _baseJumpHeight = Mathf.Max(0.0f, value); }
+        }
+
+        /// <summary>
+        /// Computed jump impulse.
+        /// </summary>
+
+        public float jumpImpulse
+        {
+            get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.gravity); }
+        }
         #endregion
 
         #region METHODS
@@ -139,6 +163,17 @@ namespace GPL
 
             //RootMotion状态更新
         }
+
+        protected void Jump()
+        {
+            if (!_jump || !_canJump) return;
+            //if (!movement.isGrounded) return;
+
+            _canJump = false;           // Halt jump until jump button is released
+            _isJumping = true;          // Update isJumping flag
+
+            movement.ApplyVerticalImpulse(jumpImpulse);
+        }
         #endregion
 
         #region MONOBEHAVIOUR
@@ -152,6 +187,7 @@ namespace GPL
         {
             // Perform character movement
             Move();
+            Jump();
         }
 
         public virtual void Update()

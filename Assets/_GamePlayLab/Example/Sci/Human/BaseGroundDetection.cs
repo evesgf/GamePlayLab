@@ -72,6 +72,19 @@ namespace GPL
         #endregion
 
         #region METHODS
+
+        public void DetectGround()
+        {
+            _groundHitInfo = new GroundHit
+            {
+                groundPoint = transform.position,
+                groundNormal = transform.up,
+                surfaceNormal = transform.up
+            };
+
+            ComputeGroundHit(transform.position, transform.rotation, ref _groundHitInfo, castDistance);
+        }
+
         public bool ComputeGroundHit(Vector3 position, Quaternion rotation, ref GroundHit groundHitInfo,
             float distance = Mathf.Infinity)
         {
@@ -139,14 +152,7 @@ namespace GPL
 
         private void FixedUpdate()
         {
-            _groundHitInfo = new GroundHit
-            {
-                groundPoint=transform.position,
-                groundNormal=transform.up,
-                surfaceNormal=transform.up
-            };
 
-            ComputeGroundHit(transform.position,transform.rotation,ref _groundHitInfo,castDistance);
 
             text.text = isOnGround.ToString();
         }

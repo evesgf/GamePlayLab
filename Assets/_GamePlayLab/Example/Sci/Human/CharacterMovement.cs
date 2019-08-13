@@ -86,9 +86,7 @@ namespace GPL
         {
             get { return gravity * slideGravityMultiplier; }
         }
-        #endregion
 
-        #region METHODS
         /// <summary>
         /// Perform ground detection.
         /// </summary>
@@ -96,6 +94,18 @@ namespace GPL
         {
             groundDetection.DetectGround();
         }
+
+        /// <summary>
+        /// Is this character standing on VALID 'ground'?
+        /// </summary>
+
+        public bool isGrounded
+        {
+            get { return groundDetection.isOnGround; }
+        }
+        #endregion
+
+        #region METHODS
 
         /// <summary>
         /// 设置角色移动
@@ -148,6 +158,19 @@ namespace GPL
                 velocity += Vector3.ProjectOnPlane(desiredVelocity - velocity, Vector3.up) +
                             Vector3.down * (slideGravity * Time.deltaTime);
             }
+        }
+
+        /// <summary>
+        /// Apply a vertical impulse (along world's up vector).
+        /// E.g. Use this to make character jump.
+        /// </summary>
+        /// <param name="impulse">The magnitude of the impulse to be applied.</param>
+
+        public void ApplyVerticalImpulse(float impulse)
+        {
+            var verticalImpulse = Vector3.up * impulse;
+            var v = new Vector3(_rigidbody.velocity.x,0.0f, _rigidbody.velocity.z);
+            _rigidbody.velocity = v + verticalImpulse;
         }
         #endregion
 
