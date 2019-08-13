@@ -5995,20 +5995,12 @@ Animator:
   m_GameObject: {fileID: 1759019575471456}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: accf190ed62d9f64aa78a421ddc1df6d, type: 3}
-  m_Controller: {fileID: 9100000, guid: c457cf0f2379b044d877f90ac3843bf3, type: 2}
+  m_Controller: {fileID: 9100000, guid: ea710d813cc758c408ba2099e2019aa0, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
-  m_WarningMessage: "\nBinding warning: Some generic clip(s) animate transforms that
-    are already bound by a Humanoid avatar. These transforms can only be changed by
-    Humanoid clips.\n\tTransform 'Jaw_M'\n\tTransform 'Jaw_M'\n\tTransform 'Eye1_R'\n\tTransform
-    'Hair_Root'\n\tTransform 'HeadEnd_M'\n\tTransform 'Eye1_R'\n\tTransform 'Hair_Root'\n\tTransform
-    'HeadEnd_M'\n\tTransform 'Jaw_M'\n\tTransform 'Eye1_R'\n\tand more ...\n\tFrom
-    animation clip 'Cry'\n\tFrom animation clip 'IdleC'\n\tFrom animation clip 'Damage'\n\tFrom
-    animation clip 'DieA'\n\tFrom animation clip 'Angpose'\n\tFrom animation clip
-    'IdleB'\n\tFrom animation clip 'Idle_A'\n\tFrom animation clip 'Run_L'\n\tFrom
-    animation clip 'Run_R'\n\tFrom animation clip 'Run'\n\tand more ..."
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
@@ -6023,10 +6015,10 @@ Rigidbody:
   m_Mass: 1
   m_Drag: 0
   m_AngularDrag: 0.05
-  m_UseGravity: 1
+  m_UseGravity: 0
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 90
+  m_Constraints: 112
   m_CollisionDetection: 0
 --- !u!136 &136485451118222308
 CapsuleCollider:
@@ -6038,7 +6030,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
-  m_Radius: 0.55
+  m_Radius: 0.3
   m_Height: 1.58
   m_Direction: 1
   m_Center: {x: 0, y: 0.79, z: 0}
