@@ -172,6 +172,28 @@ namespace GPL
             var v = new Vector3(_rigidbody.velocity.x,0.0f, _rigidbody.velocity.z);
             _rigidbody.velocity = v + verticalImpulse;
         }
+
+        /// <summary>
+        /// Rotates the character to face the given direction.
+        /// </summary>
+        /// <param name="direction">The target direction vector.</param>
+        /// <param name="angularSpeed">Maximum turning speed in (deg/s).</param>
+        /// <param name="onlyLateral">Should the y-axis be ignored?</param>
+
+        public void Rotate(Vector3 direction, float angularSpeed, bool onlyLateral = true)
+        {
+            if (onlyLateral)
+                direction.y = 0.0f;
+
+            if (direction.sqrMagnitude < 0.0001f)
+                return;
+
+            var targetRotation = Quaternion.LookRotation(direction);
+            var newRotation = Quaternion.Slerp(_rigidbody.rotation, targetRotation,
+                angularSpeed * Mathf.Deg2Rad * Time.deltaTime);
+
+            _rigidbody.MoveRotation(newRotation);
+        }
         #endregion
 
         #region MONOBEHAVIOUR

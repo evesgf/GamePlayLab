@@ -21,6 +21,13 @@ namespace GPL
         [Tooltip("The initial jump height (in meters).")]
         [SerializeField]
         private float _baseJumpHeight = 1.5f;
+        [Tooltip("Maximum turning speed (in deg/s).")]
+        [SerializeField]
+        private float _angularSpeed = 540.0f;
+        [Header("Avatar")]
+        [Tooltip("角色本身")]
+        [SerializeField]
+        private GameObject _avatar;
         #endregion
 
         #region FIELDS
@@ -132,6 +139,22 @@ namespace GPL
         {
             get { return Mathf.Sqrt(2.0f * baseJumpHeight * movement.gravity); }
         }
+
+        /// <summary>
+        /// Cached animator component (if any).
+        /// </summary>
+
+        public Animator animator { get; set; }
+
+        /// <summary>
+        /// Maximum turning speed (in deg/s).
+        /// </summary>
+
+        public float angularSpeed
+        {
+            get { return _angularSpeed; }
+            set { _angularSpeed = Mathf.Max(0.0f, value); }
+        }
         #endregion
 
         #region METHODS
@@ -164,6 +187,21 @@ namespace GPL
             //RootMotion状态更新
         }
 
+        public void RotateTowardsMoveDirection(bool onlyLateral = true)
+        {
+            RotateTowards(moveDirection, onlyLateral);
+        }
+        /// <summary>
+        /// Rotate the character towards a given direction vector.
+        /// </summary>
+        /// <param name="direction">The target direction</param>
+        /// <param name="onlyLateral">Should it be restricted to XZ only?</param>
+
+        public void RotateTowards(Vector3 direction, bool onlyLateral = true)
+        {
+            movement.Rotate(direction, angularSpeed, onlyLateral);
+        }
+
         protected void Jump()
         {
             if (!_jump || !_canJump) return;
@@ -174,6 +212,27 @@ namespace GPL
 
             movement.ApplyVerticalImpulse(jumpImpulse);
         }
+
+        protected virtual void UpdateRotation()
+        {
+            // Rotate towards movement direction (input)
+
+            RotateTowardsMoveDirection();
+        }
+
+        public virtual void Animate()
+        {
+            if (animator == null) return;
+
+            var move = transform.InverseTransformDirection(moveDirection);
+            var forwardAmount = move.z;
+
+            animator.SetFloat("MoveSpeed", forwardAmount, 0.1f, Time.deltaTime);
+            animator.SetBool("OnGround", movement.isGrounded);
+
+            if (!movement.isGrounded)
+                animator.SetFloat("Jump", movement.velocity.y, 0.1f, Time.deltaTime);
+        }
         #endregion
 
         #region MONOBEHAVIOUR
@@ -181,6 +240,7 @@ namespace GPL
         public virtual void Awake()
         {
             movement = GetComponent<CharacterMovement>();
+            animator = _avatar.GetComponent<Animator>();
         }
 
         public virtual void FixedUpdate()
@@ -194,6 +254,12 @@ namespace GPL
         {
             // Handle input
             HandleInput();
+
+            // Update character rotation
+            UpdateRotation();
+
+            // Perform character animation
+            Animate();
         }
 
         #endregion
