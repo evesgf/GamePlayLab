@@ -17,15 +17,15 @@ namespace GPL
         [Tooltip("The rate at which the character's slows down.")]
         [SerializeField]
         private float _deceleration = 20.0f;
+        [SerializeField]
+        private float _angularSpeed = 540.0f;
         [Header("Jump")]
         [Tooltip("The initial jump height (in meters).")]
         [SerializeField]
         private float _baseJumpHeight = 1.5f;
         [Tooltip("Maximum turning speed (in deg/s).")]
-        [SerializeField]
-        private float _angularSpeed = 540.0f;
+
         [Header("Avatar")]
-        [Tooltip("角色本身")]
         [SerializeField]
         private GameObject _avatar;
         #endregion
