@@ -35,7 +35,6 @@ namespace GPL
         private bool _jump;
         private bool _canJump=true;
         private bool _isJumping;
-
         #endregion
 
         #region PROPERTIES
@@ -81,6 +80,11 @@ namespace GPL
                 return _isJumping;
             }
         }
+
+        /// <summary>
+        /// 冲刺
+        /// </summary>
+        public bool isSprint{get;private set;}
 
         /// <summary>
         /// The rate of change of velocity.
@@ -171,6 +175,10 @@ namespace GPL
             };
 
             jump = Input.GetButton("Jump");
+            if (Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                isSprint = !isSprint;
+            }
         }
 
         /// <summary>
@@ -181,7 +189,9 @@ namespace GPL
         {
             var desiredVelocity = CalcDesiredVelocity();
             //移动逻辑，矢量运动或RootMotion
-            movement.Move(desiredVelocity,speed, acceleration,deceleration);
+            var s = speed;
+            if (isSprint) s = s * 3;
+            movement.Move(desiredVelocity,s, acceleration,deceleration);
             //跳跃逻辑
 
             //RootMotion状态更新
@@ -226,8 +236,9 @@ namespace GPL
 
             var move = transform.InverseTransformDirection(moveDirection);
             var forwardAmount = move.z;
-
-            animator.SetFloat("MoveSpeed", forwardAmount, 0.1f, Time.deltaTime);
+            var f = forwardAmount;
+            if (isSprint) f = f + 1;
+            animator.SetFloat("MoveSpeed", f, 0.1f, Time.deltaTime);
             animator.SetBool("OnGround", movement.isGrounded);
 
             if (!movement.isGrounded)
