@@ -6,7 +6,12 @@ namespace GPL
 {
     public class GroundMovementState : StateBase
     {
+        [Header("Normal Run")]
+        public moveType moveType = moveType.MoveToForward;
+
+        public float moveAniSpeed=1.0f;
         public float moveSpeed;
+        public float drag=0.1f;
         public float rotateSpeed;
 
         private StateMachine FSM;
@@ -25,15 +30,41 @@ namespace GPL
             return (int)PlayerState.GroundMovement;
         }
 
+        public override void OnEnter(StateMachine stateMachine, IState prevState, object param1, object param2)
+        {
+            base.OnEnter(stateMachine, prevState, param1, param2);
+
+            playerController.aniSpeed = moveAniSpeed;
+
+        }
+
         public override void OnFixedUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            playerController.realMoveDirection = playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right;
+            playerController.aniSpeed = moveAniSpeed;
 
-            //移动
-            playerController._rigidbody.MovePosition(playerController.transform.position + playerController.realMoveDirection * moveSpeed * elapseSeconds);
 
-            //旋转
-            playerController._rigidbody.MoveRotation (Quaternion.Slerp(playerController.transform.rotation, Quaternion.LookRotation(playerController.realMoveDirection), Time.deltaTime * rotateSpeed));
+            switch (moveType)
+            {
+                case moveType.MoveToForward:
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right, drag);
+                    break;
+
+                case moveType.MoveToCamera:
+                    break;
+
+                case moveType.MoveToTarget:
+                    break;
+
+                default:
+                    break;
+            }
+
+            playerController.movement.Move(playerController.realMoveDirection, moveSpeed, elapseSeconds);
+
+            if (playerController.currentMoveDirection != Vector3.zero)
+            {
+                playerController.movement.Rotate(playerController.currentMoveDirection, rotateSpeed, elapseSeconds);
+            }
         }
 
         public override void OnLateUpdate(float elapseSeconds, float realElapseSeconds)

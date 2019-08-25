@@ -8,5 +8,6 @@ namespace GPL
     {
         GroundIdle=0,
         GroundMovement=1,
+        Jump=2,
     }
 }

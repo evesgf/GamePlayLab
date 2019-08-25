@@ -9,7 +9,6 @@ namespace GPL
     public class BaseGroundDetection : MonoBehaviour
     {
         #region EDITOR EXPOSED FIELDS
-        public Text text;
         [Tooltip("Layers to be considered as 'ground' (walkables).")]
         [SerializeField]
         private LayerMask _groundMask = 1;
@@ -22,7 +21,7 @@ namespace GPL
         #region FIELDS
         protected const float kBackstepDistance = 0.05f;
         protected const float kMinCastDistance = 0.01f;
-        private CapsuleCollider _capsuleCollider;
+        public CapsuleCollider _capsuleCollider;
         protected GroundHit _groundHitInfo;
         #endregion
 
@@ -153,8 +152,6 @@ namespace GPL
         private void FixedUpdate()
         {
 
-
-            text.text = isOnGround.ToString();
         }
         #endregion
     }

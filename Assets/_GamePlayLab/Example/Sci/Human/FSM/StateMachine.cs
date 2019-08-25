@@ -9,7 +9,6 @@ namespace GPL
     public class StateMachine : MonoBehaviour
     {
         public GameObject m_owner;
-        public Text txt_showState;
 
         /// <summary>
         /// 存储所有注册进来的状态。key是状态ID，value是状态对象
