@@ -78,7 +78,7 @@ namespace GPL
         //旋转
         public void Rotate(Vector3 desiredVelocity, float rotateSpeed, float elapseSeconds)
         {
-            playerController._rigidbody.MoveRotation(Quaternion.Slerp(playerController.transform.rotation, Quaternion.LookRotation(playerController.realMoveDirection), Time.deltaTime * rotateSpeed));
+            playerController._rigidbody.MoveRotation(Quaternion.Slerp(playerController.transform.rotation, Quaternion.LookRotation(desiredVelocity), Time.deltaTime * rotateSpeed));
         }
 
         /// <summary>
@@ -124,7 +124,11 @@ namespace GPL
         private void FixedUpdate()
         {
             playerController.groundDetection.DetectGround();
-            velocity += Vector3.down * gravity * Time.fixedDeltaTime;
+
+            if (useGravity)
+            {
+                velocity += Vector3.down * gravity * Time.fixedDeltaTime;
+            }
         }
     }
 

@@ -17050,7 +17050,7 @@ ModelImporter:
       name: Jump_place_ALL_short_end
       takeName: Jump_place_ALL_short
       firstFrame: 37
-      lastFrame: 68
+      lastFrame: 60
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -18310,7 +18310,7 @@ ModelImporter:
       name: Jump_run_ru_ALL_End
       takeName: Jump_run_ru_ALL
       firstFrame: 19
-      lastFrame: 59
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -19210,7 +19210,7 @@ ModelImporter:
       name: Jump_run_lu_ALL_End
       takeName: Jump_run_lu_ALL
       firstFrame: 19
-      lastFrame: 59
+      lastFrame: 45
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

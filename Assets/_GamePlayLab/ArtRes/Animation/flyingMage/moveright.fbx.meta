@@ -145,7 +145,7 @@ ModelImporter:
     400138: upperarm_twist_01_r
     2100000: M_AassetPlatform
     4300000: SK_Mannequin
-    7400000: Unreal Take
+    7400000: FlyMoveright
     9500000: //RootNode
     13700000: SK_Mannequin
     2186277476908879412: ImportLogs
@@ -181,7 +181,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Unreal Take
+      name: FlyMoveright
       takeName: Unreal Take
       firstFrame: 0
       lastFrame: 40

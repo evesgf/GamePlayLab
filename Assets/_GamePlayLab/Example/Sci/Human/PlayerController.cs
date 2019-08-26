@@ -21,6 +21,8 @@ namespace GPL
         private bool _canJump=true;
         private bool _isJumping;
         private float _jumpButtonHeldDownTimer;
+
+        private bool _fly;
         #endregion
 
         #region PROPERTIES
@@ -79,6 +81,22 @@ namespace GPL
                 return _isJumping;
             }
         }
+
+        public bool fly
+        {
+            get { return _fly; }
+            set
+            {
+                if (!_fly && value == true)
+                {
+                    if (!groundDetection.isOnGround)
+                    {
+                        FSM.SwitchState((int)PlayerState.Fly, null, null);
+                        _fly = value;
+                    } 
+                }
+            }
+        }
         #endregion
 
         #region Methold
@@ -90,6 +108,11 @@ namespace GPL
             _avatar.SetFloat("MoveSpeed", move.z, 0.1f, Time.deltaTime);
             _avatar.SetBool("OnGround", groundDetection.isOnGround);
             _avatar.SetFloat("Jump",movement.velocity.y);
+
+            _avatar.SetFloat("Horizontal", currentMoveDirection.x, 0.1f, Time.deltaTime);
+            _avatar.SetFloat("Vertical", currentMoveDirection.z, 0.1f, Time.deltaTime);
+
+            _avatar.SetBool("IsFly", _fly);
         }
 
         /// <summary>
@@ -146,8 +169,9 @@ namespace GPL
             };
 
             jump = Input.GetButton("Jump");
-
             CheckJump();
+
+            fly = Input.GetKey(KeyCode.F);
 
             //Update FSM
             FSM.OnUpdate(Time.deltaTime, Time.realtimeSinceStartup);
