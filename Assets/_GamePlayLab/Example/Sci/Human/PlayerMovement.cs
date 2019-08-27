@@ -107,6 +107,16 @@ namespace GPL
             v.y = 0;
             playerController.movement.velocity = v + verticalImpulse;
         }
+
+        /// <summary>
+        /// 添加额外力
+        /// </summary>
+        /// <param name="force"></param>
+        /// <param name="forceMode"></param>
+        public void ApplyForce(Vector3 force, ForceMode forceMode = ForceMode.Force)
+        {
+            playerController._rigidbody.AddForce(force, forceMode);
+        }
         #endregion
 
         // Start is called before the first frame update

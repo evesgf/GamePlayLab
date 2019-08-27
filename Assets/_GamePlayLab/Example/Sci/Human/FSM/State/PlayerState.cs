@@ -10,5 +10,6 @@ namespace GPL
         GroundMovement=1,
         Jump=2,
         Fly=3,
+        Fall=4,
     }
 }

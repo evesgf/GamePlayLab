@@ -23,6 +23,12 @@ namespace GPL
         private float _jumpButtonHeldDownTimer;
 
         private bool _fly;
+
+        private bool _isFall;
+
+        private bool _sprint;
+        private bool _isSprinting;
+        private bool _isSprintStop;
         #endregion
 
         #region PROPERTIES
@@ -71,15 +77,8 @@ namespace GPL
 
         public bool isJumping
         {
-            get
-            {
-                // We are in jump mode but just falling
-
-                if (_isJumping && movement.velocity.y < 0.0001f)
-                    _isJumping = false;
-
-                return _isJumping;
-            }
+            get { return _isJumping; }
+            set { _isJumping = value; }
         }
 
         public bool fly
@@ -87,15 +86,57 @@ namespace GPL
             get { return _fly; }
             set
             {
-                if (!_fly && value == true)
+                if (value != true) return;
+                if (!_fly)
                 {
                     if (!groundDetection.isOnGround)
                     {
                         FSM.SwitchState((int)PlayerState.Fly, null, null);
-                        _fly = value;
+                        _fly = true;
                     } 
+                }else
+                {
+                    FSM.SwitchState((int)PlayerState.GroundMovement, null, null);
+                    _fly = false;
                 }
             }
+        }
+
+        public bool fall
+        {
+            get { return _isFall; }
+            set { _isFall = value; }
+        }
+
+        public bool sprint
+        {
+            get { return _sprint; }
+            set
+            {
+                if (value != true) return;
+
+                _sprint = !_sprint;
+                isSprinting = _sprint;
+            }
+        }
+        public bool isSprinting
+        {
+            get { return _isSprinting; }
+            set
+            {
+                _isSprinting = value;
+                _sprint = value;
+                if (value == true)
+                {
+                    _isSprintStop = false;
+                }
+            }
+        }
+
+        public bool isSprintStop
+        {
+            get { return _isSprintStop; }
+            set { _isSprintStop = value; }
         }
         #endregion
 
@@ -113,6 +154,11 @@ namespace GPL
             _avatar.SetFloat("Vertical", currentMoveDirection.z, 0.1f, Time.deltaTime);
 
             _avatar.SetBool("IsFly", _fly);
+            _avatar.SetBool("IsJumping", _isJumping);
+            _avatar.SetBool("IsFall", _isFall);
+
+            _avatar.SetBool("IsSprinting", _isSprinting);
+            _avatar.SetBool("IsSprintStop", _isSprintStop);
         }
 
         /// <summary>
@@ -128,14 +174,20 @@ namespace GPL
             if (!groundDetection.isOnGround)
                 return;
 
-            //if (_jumpButtonHeldDownTimer > _jumpToleranceTime)
-            //    return;
-
             _canJump = false;           // Halt jump until jump button is released
-            _isJumping = true;          // Update isJumping flag
-            //_updateJumpTimer = true;    // Allow mid-air jump to be variable height
 
             FSM.SwitchState((int)PlayerState.Jump, null, null);
+        }
+
+        /// <summary>
+        /// Fall状态检查
+        /// </summary>
+        public void CheckFall()
+        {
+            if (!fly && !isJumping && !groundDetection.isOnGround)
+            {
+                FSM.SwitchState((int)PlayerState.Fall, null, null);
+            }
         }
         #endregion
 
@@ -171,7 +223,11 @@ namespace GPL
             jump = Input.GetButton("Jump");
             CheckJump();
 
-            fly = Input.GetKey(KeyCode.F);
+            fly = Input.GetKeyDown(KeyCode.F);
+
+            sprint= Input.GetKeyDown(KeyCode.LeftShift);
+
+            CheckFall();
 
             //Update FSM
             FSM.OnUpdate(Time.deltaTime, Time.realtimeSinceStartup);
