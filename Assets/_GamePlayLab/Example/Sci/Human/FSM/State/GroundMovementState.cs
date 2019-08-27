@@ -95,7 +95,7 @@ namespace GPL
             }
 
             //SprintStop状态检测
-            if (playerController.currentMoveDirection == Vector3.zero && isSprint && isSprintStop == false)
+            if ((moveType==moveType.MoveToCamera? playerController.currentMoveDirection.z < float.Epsilon: playerController.currentMoveDirection ==Vector3.zero) && isSprint && isSprintStop == false)
             {
                 StartCoroutine(OnSprintStop());
             }

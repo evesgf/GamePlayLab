@@ -9544,7 +9544,7 @@ MonoBehaviour:
   sprintSpeed: 20
   sprintDrag: 0.1
   sprintRotateSpeed: 8
-  sprintStopDuration: 0.5
+  sprintStopDuration: 1.1
   sprintStopCurve:
     serializedVersion: 2
     m_Curve:
@@ -9557,6 +9557,15 @@ MonoBehaviour:
       weightedMode: 0
       inWeight: 0.33333334
       outWeight: 0.1625
+    - serializedVersion: 3
+      time: 0.49583334
+      value: 0.0041246265
+      inSlope: -0.059550904
+      outSlope: -0.059550904
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.553719
     - serializedVersion: 3
       time: 1
       value: 0
