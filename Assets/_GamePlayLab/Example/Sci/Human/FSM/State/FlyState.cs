@@ -10,6 +10,10 @@ namespace GPL
         public moveType moveType = moveType.MoveToCamera;
 
         public Transform cam;
+        public float normalBlur = 0;
+        public float sprintBlur = 0.007f;
+        public float blurTransition = 5f;
+        private RadialBlurEffect radialBlurEffect;
 
         public float moveAniSpeed = 1.0f;
         public float moveSpeed;
@@ -21,6 +25,7 @@ namespace GPL
         public float sprintSpeed;
         public float sprintDrag = 0.1f;
         public float sprintRotateSpeed;
+        public PlayerTrail trail;
 
         public float sprintStopDuration = 0.5f;
         public AnimationCurve sprintStopCurve;
@@ -37,6 +42,8 @@ namespace GPL
         #region METHODS
         IEnumerator OnSprintStop()
         {
+            trail.CloseTrail();
+
             isSprintStop = true;
             playerController.isSprinting = false;
             var moveDir = playerController.movement.velocity.normalized;
@@ -51,11 +58,15 @@ namespace GPL
                 yield return i;
             }
             isSprintStop = false;
+
+            trail.OpenTrail();
         }
         #endregion
 
         private void Start()
         {
+            radialBlurEffect = cam.GetComponent<RadialBlurEffect>();
+
             FSM = GetComponentInParent<StateMachine>();
             playerController = FSM.m_owner.GetComponent<PlayerController>();
             FSM.RegistState(this);
@@ -75,11 +86,14 @@ namespace GPL
 
             playerController.aniSpeed = moveAniSpeed;
 
+            trail.OpenTrail();
         }
 
         public override void OnLeave(IState nextState, object param1, object param2)
         {
             playerController.movement.useGravity = true;
+
+            trail.CloseTrail();
 
             base.OnLeave(nextState, param1, param2);
         }
@@ -87,6 +101,17 @@ namespace GPL
         public override void OnFixedUpdate(float elapseSeconds, float realElapseSeconds)
         {
             isSprint = playerController.isSprinting;
+            //切换Trail和屏幕模糊
+            if (isSprint)
+            {
+                trail.TrailHigh();
+                radialBlurEffect.blurFactor = Mathf.Lerp(radialBlurEffect.blurFactor, sprintBlur, blurTransition * Time.deltaTime);
+            }
+            else
+            {
+                trail.TrailLow();
+                radialBlurEffect.blurFactor = Mathf.Lerp(radialBlurEffect.blurFactor, normalBlur, blurTransition * Time.deltaTime);
+            }
 
             playerController.aniSpeed = isSprint ? sprintAniSpeed : moveAniSpeed;
 
