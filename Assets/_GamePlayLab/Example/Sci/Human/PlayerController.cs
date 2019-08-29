@@ -60,6 +60,11 @@ namespace GPL
             set { _realMoveDirection = Vector3.ClampMagnitude(value, 1.0f); }
         }
 
+        /// <summary>
+        /// 用于锁定Horizontal方向的Animaotr输入
+        /// </summary>
+        public bool LockHorizontal { get; set; }
+
         public bool jump
         {
             get { return _jump; }
@@ -150,8 +155,9 @@ namespace GPL
             _avatar.SetBool("OnGround", groundDetection.isOnGround);
             _avatar.SetFloat("Jump",movement.velocity.y);
 
-            _avatar.SetFloat("Horizontal", currentMoveDirection.x, 0.1f, Time.deltaTime);
-            _avatar.SetFloat("Vertical", currentMoveDirection.z, 0.1f, Time.deltaTime);
+            _avatar.SetFloat("Horizontal", LockHorizontal ? 0 : currentMoveDirection.x, 0.1f, Time.deltaTime);
+            _avatar.SetFloat("Vertical",currentMoveDirection.z, 0.1f, Time.deltaTime);
+            _avatar.SetFloat("UpAxisDirection", currentMoveDirection.y, 0.1f, Time.deltaTime);
 
             _avatar.SetBool("IsFly", _fly);
             _avatar.SetBool("IsJumping", _isJumping);
@@ -216,8 +222,8 @@ namespace GPL
             currentMoveDirection = new Vector3
             {
                 x = Input.GetAxisRaw("Horizontal"),
-                y = 0.0f,
-                z = Input.GetAxisRaw("Vertical")
+                y = Input.GetAxisRaw("UpAxis"),
+            z = Input.GetAxisRaw("Vertical")
             };
 
             jump = Input.GetButton("Jump");

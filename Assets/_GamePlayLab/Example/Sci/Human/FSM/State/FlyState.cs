@@ -7,7 +7,7 @@ namespace GPL
     public class FlyState : StateBase
     {
         [Header("Normal Fly")]
-        public moveType moveType = moveType.MoveToCamera;
+        public moveType normalMoveType = moveType.MoveToForward;
 
         public Transform cam;
         public float normalBlur = 0;
@@ -21,6 +21,7 @@ namespace GPL
         public float moveRotateSpeed;
 
         [Header("Sprint Fly")]
+        public moveType sprintMoveType = moveType.MoveToCamera;
         public float sprintAniSpeed = 1.0f;
         public float sprintSpeed;
         public float sprintDrag = 0.1f;
@@ -54,7 +55,7 @@ namespace GPL
             for (float i = 0; i < sprintStopDuration; i += Time.deltaTime)
             {
                 //沿当前刚体移动方向继续移动
-                playerController.movement.Move(moveDir, sprintStopCurve.Evaluate(i / sprintStopDuration) * sprintSpeed, i);
+                playerController.movement.AirMove(moveDir, sprintStopCurve.Evaluate(i / sprintStopDuration) * sprintSpeed, i);
                 yield return i;
             }
             isSprintStop = false;
@@ -115,19 +116,32 @@ namespace GPL
 
             playerController.aniSpeed = isSprint ? sprintAniSpeed : moveAniSpeed;
 
+            var moveType = isSprint ? sprintMoveType : normalMoveType;
             switch (moveType)
             {
                 case moveType.MoveToForward:
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right, isSprint ? sprintDrag : moveDrag);
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
+
+                    //朝向视口
+                    if (playerController.currentMoveDirection.x!=0 || playerController.currentMoveDirection.z != 0)
+                    {
+                        playerController.movement.GroundRotate(playerController.realMoveDirection, moveRotateSpeed, elapseSeconds);
+                    };
+
+                    //锁定Animaotr的Horizontal输入防止切换横向动画
+                    playerController.LockHorizontal = true;
                     break;
 
                 case moveType.MoveToCamera:
                     //计算视口方向
                     camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right, moveDrag);
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right+playerController.currentMoveDirection.y* Vector3.up, moveDrag);
 
                     //朝向视口
-                    playerController.movement.Rotate(cam.forward, moveRotateSpeed, elapseSeconds);
+                    playerController.movement.AirRotate(cam.forward, moveRotateSpeed, elapseSeconds);
+
+                    //开启Animaotr的Horizontal输入切换横向动画
+                    playerController.LockHorizontal = false;
                     break;
 
                 case moveType.MoveToTarget:
@@ -147,7 +161,7 @@ namespace GPL
                 if (!isSprintStop)
                 {
                     //移动
-                    playerController.movement.Move(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds);
+                    playerController.movement.AirMove(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds);
                 }
             }
         }

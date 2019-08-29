@@ -54,9 +54,30 @@ namespace GPL
 
         #region METHODS
         //移动
-        public void Move(Vector3 desiredVelocity,float moveSpeed,float elapseSeconds)
+        public void GroundMove(Vector3 desiredVelocity,float moveSpeed,float elapseSeconds)
         {
+            desiredVelocity.y = 0;
             desiredVelocity = GetTangent(desiredVelocity, Vector3.up, Vector3.up) * Mathf.Min(desiredVelocity.magnitude*moveSpeed, moveSpeed);
+
+            velocity = desiredVelocity;
+
+            if (useGravity)
+            {
+                if (playerController.groundDetection.isOnGround)
+                {
+                    velocity += Vector3.down * gravity * elapseSeconds;
+                }
+                else
+                {
+                    velocity += Vector3.down * gravity;
+                }
+            }
+
+            //playerController._rigidbody.MovePosition(playerController.transform.position + playerController.realMoveDirection * moveSpeed * elapseSeconds);
+        }
+        public void AirMove(Vector3 desiredVelocity, float moveSpeed, float elapseSeconds)
+        {
+            desiredVelocity = desiredVelocity * Mathf.Min(desiredVelocity.magnitude * moveSpeed, moveSpeed);
 
             velocity = desiredVelocity;
 
@@ -76,7 +97,13 @@ namespace GPL
         }
 
         //旋转
-        public void Rotate(Vector3 desiredVelocity, float rotateSpeed, float elapseSeconds)
+        public void GroundRotate(Vector3 desiredVelocity, float rotateSpeed, float elapseSeconds)
+        {
+            desiredVelocity.y = 0;
+            playerController._rigidbody.MoveRotation(Quaternion.Slerp(playerController.transform.rotation, Quaternion.LookRotation(desiredVelocity), Time.deltaTime * rotateSpeed));
+        }
+
+        public void AirRotate(Vector3 desiredVelocity, float rotateSpeed, float elapseSeconds)
         {
             playerController._rigidbody.MoveRotation(Quaternion.Slerp(playerController.transform.rotation, Quaternion.LookRotation(desiredVelocity), Time.deltaTime * rotateSpeed));
         }

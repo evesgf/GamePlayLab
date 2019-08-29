@@ -43,7 +43,7 @@ namespace GPL
             for (float i = 0; i < sprintStopDuration; i+=Time.deltaTime)
             {
                 //沿当前刚体移动方向继续移动
-                playerController.movement.Move(moveDir, sprintStopCurve.Evaluate(i / sprintStopDuration) * sprintSpeed ,i);
+                playerController.movement.GroundMove(moveDir, sprintStopCurve.Evaluate(i / sprintStopDuration) * sprintSpeed ,i);
                 yield return i;
             }
             isSprintStop = false;
@@ -104,12 +104,12 @@ namespace GPL
                 if (!isSprintStop)
                 {
                     //移动
-                    playerController.movement.Move(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds);
+                    playerController.movement.GroundMove(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds);
 
                     //旋转
                     if (playerController.currentMoveDirection != Vector3.zero)
                     {
-                        playerController.movement.Rotate(playerController.currentMoveDirection, isSprint ? sprintRotateSpeed : moveRotateSpeed, elapseSeconds);
+                        playerController.movement.GroundRotate(playerController.currentMoveDirection, isSprint ? sprintRotateSpeed : moveRotateSpeed, elapseSeconds);
                     }
                 }
             }

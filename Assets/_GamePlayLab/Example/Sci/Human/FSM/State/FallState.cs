@@ -66,7 +66,7 @@ namespace GPL
 
             if (playerController.currentMoveDirection != Vector3.zero)
             {
-                playerController.movement.Rotate(playerController.currentMoveDirection, rotateSpeed, elapseSeconds);
+                playerController.movement.GroundRotate(playerController.currentMoveDirection, rotateSpeed, elapseSeconds);
             }
         }
 
