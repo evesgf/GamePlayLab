@@ -6,10 +6,11 @@ namespace GPL
 {
     public class FlyState : StateBase
     {
+        public Transform cam;
+
         [Header("Normal Fly")]
         public moveType normalMoveType = moveType.MoveToForward;
 
-        public Transform cam;
         public float normalBlur = 0;
         public float sprintBlur = 0.007f;
         public float blurTransition = 5f;
@@ -117,10 +118,12 @@ namespace GPL
             playerController.aniSpeed = isSprint ? sprintAniSpeed : moveAniSpeed;
 
             var moveType = isSprint ? sprintMoveType : normalMoveType;
+            //计算视口方向
+            camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
             switch (moveType)
             {
                 case moveType.MoveToForward:
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
 
                     //朝向视口
                     if (playerController.currentMoveDirection.x!=0 || playerController.currentMoveDirection.z != 0)
@@ -133,8 +136,6 @@ namespace GPL
                     break;
 
                 case moveType.MoveToCamera:
-                    //计算视口方向
-                    camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
                     playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right+playerController.currentMoveDirection.y* Vector3.up, moveDrag);
 
                     //朝向视口

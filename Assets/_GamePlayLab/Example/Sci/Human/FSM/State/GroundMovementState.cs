@@ -6,6 +6,8 @@ namespace GPL
 {
     public class GroundMovementState : StateBase
     {
+        public Transform cam;
+
         [Header("Normal Run")]
         public moveType moveType = moveType.MoveToForward;
 
@@ -25,6 +27,8 @@ namespace GPL
 
         private StateMachine FSM;
         private PlayerController playerController;
+
+        private Vector3 camForward;
 
         private bool isSprint;
         private bool isSprintStop;
@@ -78,13 +82,31 @@ namespace GPL
 
             playerController.aniSpeed = isSprint? sprintAniSpeed:moveAniSpeed;
 
+            //计算视口方向
+            camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
             switch (moveType)
             {
                 case moveType.MoveToForward:
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right, isSprint? sprintDrag: moveDrag);
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
+
+                    //朝向视口
+                    if (playerController.currentMoveDirection.x != 0 || playerController.currentMoveDirection.z != 0)
+                    {
+                        playerController.movement.GroundRotate(playerController.realMoveDirection, moveRotateSpeed, elapseSeconds);
+                    };
+
+                    //锁定Animaotr的Horizontal输入防止切换横向动画
+                    playerController.LockHorizontal = true;
                     break;
 
                 case moveType.MoveToCamera:
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, moveDrag);
+
+                    //朝向视口
+                    playerController.movement.GroundRotate(cam.forward, moveRotateSpeed, elapseSeconds);
+
+                    //开启Animaotr的Horizontal输入切换横向动画
+                    playerController.LockHorizontal = false;
                     break;
 
                 case moveType.MoveToTarget:
@@ -105,12 +127,6 @@ namespace GPL
                 {
                     //移动
                     playerController.movement.GroundMove(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds);
-
-                    //旋转
-                    if (playerController.currentMoveDirection != Vector3.zero)
-                    {
-                        playerController.movement.GroundRotate(playerController.currentMoveDirection, isSprint ? sprintRotateSpeed : moveRotateSpeed, elapseSeconds);
-                    }
                 }
             }
         }
