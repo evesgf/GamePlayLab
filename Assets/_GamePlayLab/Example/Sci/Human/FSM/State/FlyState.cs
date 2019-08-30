@@ -37,6 +37,7 @@ namespace GPL
 
         private Vector3 camForward;
 
+        private moveType moveType;
         private bool isSprint;
         private bool isSprintStop;
         private bool isSprintStopTimer;
@@ -49,6 +50,7 @@ namespace GPL
             isSprintStop = true;
             playerController.isSprinting = false;
             var moveDir = playerController.movement.velocity.normalized;
+            playerController.realMoveDirection = Vector3.zero;
 
             //设置动画
             playerController.isSprintStop = true;
@@ -117,39 +119,42 @@ namespace GPL
 
             playerController.aniSpeed = isSprint ? sprintAniSpeed : moveAniSpeed;
 
-            var moveType = isSprint ? sprintMoveType : normalMoveType;
-            //计算视口方向
-            camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
-            switch (moveType)
+            if (!isSprintStop)
             {
-                case moveType.MoveToForward:
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
+                moveType = isSprint ? sprintMoveType : normalMoveType;
+                //计算视口方向
+                camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
+                switch (moveType)
+                {
+                    case moveType.MoveToForward:
+                        playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
 
-                    //朝向视口
-                    if (playerController.currentMoveDirection.x!=0 || playerController.currentMoveDirection.z != 0)
-                    {
-                        playerController.movement.GroundRotate(playerController.realMoveDirection, moveRotateSpeed, elapseSeconds);
-                    };
+                        //朝向视口
+                        if (playerController.currentMoveDirection.x != 0 || playerController.currentMoveDirection.z != 0)
+                        {
+                            playerController.movement.GroundRotate(playerController.realMoveDirection, moveRotateSpeed, elapseSeconds);
+                        };
 
-                    //锁定Animaotr的Horizontal输入防止切换横向动画
-                    playerController.LockHorizontal = true;
-                    break;
+                        //锁定Animaotr的Horizontal输入防止切换横向动画
+                        playerController.LockHorizontal = true;
+                        break;
 
-                case moveType.MoveToCamera:
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right+playerController.currentMoveDirection.y* Vector3.up, moveDrag);
+                    case moveType.MoveToCamera:
+                        playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, moveDrag);
 
-                    //朝向视口
-                    playerController.movement.AirRotate(cam.forward, moveRotateSpeed, elapseSeconds);
+                        //朝向视口
+                        playerController.movement.AirRotate(cam.forward, moveRotateSpeed, elapseSeconds);
 
-                    //开启Animaotr的Horizontal输入切换横向动画
-                    playerController.LockHorizontal = false;
-                    break;
+                        //开启Animaotr的Horizontal输入切换横向动画
+                        playerController.LockHorizontal = false;
+                        break;
 
-                case moveType.MoveToTarget:
-                    break;
+                    case moveType.MoveToTarget:
+                        break;
 
-                default:
-                    break;
+                    default:
+                        break;
+                }
             }
 
             //SprintStop状态检测
