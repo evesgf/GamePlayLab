@@ -242,7 +242,6 @@ namespace GPL
             }
 
             string info = (null != m_curState) ? ((PlayerState)m_curState.GetStateID()).ToString() : "null";
-            Debug.Log(info);
         }
 
         /// <summary>

@@ -80,6 +80,12 @@ namespace GPL
                 FSM.SwitchState((int)PlayerState.GroundMovement, null, null);
             }
 
+            //墙面检测
+            if (playerController.wallDetection.forwardUpIsHit || playerController.wallDetection.forwardUpIsHit || playerController.wallDetection.forwardUpIsHit)
+            {
+                FSM.SwitchState((int)PlayerState.WallMovement, null, null);
+            }
+
             playerController.aniSpeed = moveAniSpeed;
 
             switch (moveType)

@@ -7,6 +7,7 @@ namespace GPL
     public class PlayerController : MonoBehaviour
     {
         public BaseGroundDetection groundDetection;
+        public WallDetection wallDetection;
 
         public StateMachine FSM;
 
@@ -29,6 +30,8 @@ namespace GPL
         private bool _sprint;
         private bool _isSprinting;
         private bool _isSprintStop;
+
+        private bool _wall;
         #endregion
 
         #region PROPERTIES
@@ -143,6 +146,12 @@ namespace GPL
             get { return _isSprintStop; }
             set { _isSprintStop = value; }
         }
+
+        public bool isWall
+        {
+            get { return _wall; }
+            set { _wall = value; }
+        }
         #endregion
 
         #region Methold
@@ -165,6 +174,8 @@ namespace GPL
 
             _avatar.SetBool("IsSprinting", _isSprinting);
             _avatar.SetBool("IsSprintStop", _isSprintStop);
+
+            _avatar.SetBool("IsWall", _wall);
         }
 
         /// <summary>
@@ -190,7 +201,7 @@ namespace GPL
         /// </summary>
         public void CheckFall()
         {
-            if (!fly && !isJumping && !groundDetection.isOnGround)
+            if (!fly && !isJumping && !groundDetection.isOnGround && !isWall)
             {
                 FSM.SwitchState((int)PlayerState.Fall, null, null);
             }

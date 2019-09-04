@@ -27,7 +27,9 @@ namespace GPL
         public float sprintSpeed;
         public float sprintDrag = 0.1f;
         public float sprintRotateSpeed;
-        public PlayerTrail trail;
+        public ParticleSystem[] normalEffects;
+        public ParticleSystem[] sprintEffects;
+        public TrailRenderer[] sprintTrails;
 
         public float sprintStopDuration = 0.5f;
         public AnimationCurve sprintStopCurve;
@@ -42,10 +44,44 @@ namespace GPL
         private bool isSprintStop;
         private bool isSprintStopTimer;
 
+        private bool isOpenSprintEFX;
+
         #region METHODS
+        private void OpenSprintEFX()
+        {
+            if (isOpenSprintEFX) return;
+            SwitchSprintEFX(true);
+        }
+
+        private void CloseSprintEFX()
+        {
+            if (!isOpenSprintEFX) return;
+            SwitchSprintEFX(false);
+        }
+
+        private void SwitchSprintEFX(bool value)
+        {
+            foreach (var e in sprintEffects)
+            {
+                if (value)
+                {
+                    if (e.isStopped) e.Play();
+                }
+                else
+                {
+                    if (e.isPlaying) e.Stop();
+                }
+            }
+            foreach (var t in sprintTrails)
+            {
+                if (t.enabled!= value) t.enabled = value;
+            }
+            isOpenSprintEFX = value;
+        }
+
         IEnumerator OnSprintStop()
         {
-            trail.CloseTrail();
+            CloseSprintEFX();
 
             isSprintStop = true;
             playerController.isSprinting = false;
@@ -62,13 +98,13 @@ namespace GPL
                 yield return i;
             }
             isSprintStop = false;
-
-            trail.OpenTrail();
         }
         #endregion
 
         private void Start()
         {
+            CloseSprintEFX();
+
             radialBlurEffect = cam.GetComponent<RadialBlurEffect>();
 
             FSM = GetComponentInParent<StateMachine>();
@@ -90,14 +126,22 @@ namespace GPL
 
             playerController.aniSpeed = moveAniSpeed;
 
-            trail.OpenTrail();
+            foreach (var n in normalEffects)
+            {
+                n.Play();
+            }
         }
 
         public override void OnLeave(IState nextState, object param1, object param2)
         {
+            foreach (var n in normalEffects)
+            {
+                n.Stop();
+            }
+
             playerController.movement.useGravity = true;
 
-            trail.CloseTrail();
+            CloseSprintEFX();
 
             base.OnLeave(nextState, param1, param2);
         }
@@ -108,12 +152,12 @@ namespace GPL
             //切换Trail和屏幕模糊
             if (isSprint)
             {
-                trail.TrailHigh();
+                OpenSprintEFX();
+
                 radialBlurEffect.blurFactor = Mathf.Lerp(radialBlurEffect.blurFactor, sprintBlur, blurTransition * Time.deltaTime);
             }
             else
             {
-                trail.TrailLow();
                 radialBlurEffect.blurFactor = Mathf.Lerp(radialBlurEffect.blurFactor, normalBlur, blurTransition * Time.deltaTime);
             }
 
