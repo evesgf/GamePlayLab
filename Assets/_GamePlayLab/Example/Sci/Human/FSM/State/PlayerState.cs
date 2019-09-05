@@ -12,5 +12,6 @@ namespace GPL
         Fly=3,
         Fall=4,
         WallMovement=5,
+        ClimbOverObs=6,
     }
 }

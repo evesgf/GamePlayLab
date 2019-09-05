@@ -83,6 +83,12 @@ namespace GPL
 
             playerController.aniSpeed = isSprint? sprintAniSpeed:moveAniSpeed;
 
+            //ClimbOverObs Check
+            if (playerController.wallDetection.CanClimbObstacle && playerController.currentMoveDirection.magnitude==1)
+            {
+                FSM.SwitchState((int)PlayerState.ClimbOverObs, null, null);
+            }
+
             if (!isSprintStop)
             {
                 //计算视口方向

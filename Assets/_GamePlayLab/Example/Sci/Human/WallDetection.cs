@@ -29,7 +29,22 @@ namespace GPL
         public bool forwardDownGroundIsHit;
         private RaycastHit forwardDownGroundHit;
 
-        private Vector3 climbCenter;
+        public Transform climbCenterDownGroundRoot;
+        public float climbCenterDownGroundGroundDistance = 2.0f;
+        public bool climbCenterDownGroundIsHit;
+        private RaycastHit climbCenterDownGroundHit;
+        public float heightOffest = 0.3f;
+
+        public Vector3 climbCenter;
+        public Vector3 climbEnd;
+
+        private bool _canClimbObstacle;
+
+        public bool CanClimbObstacle
+        {
+            get { return _canClimbObstacle; }
+            set { _canClimbObstacle = value; }
+        }
 
         // Start is called before the first frame update
         void Start()
@@ -48,13 +63,24 @@ namespace GPL
 
             forwardDownGroundIsHit = Physics.Raycast(forwardDownGroundRoot.position, -forwardDownGroundRoot.up, out forwardDownGroundHit, forwardDownGroundDistance, groundLayerMask);
 
+            climbCenterDownGroundIsHit = Physics.Raycast(climbCenterDownGroundRoot.position, -climbCenterDownGroundRoot.up, out climbCenterDownGroundHit, climbCenterDownGroundGroundDistance, groundLayerMask);
+
+            climbCenter = climbCenterDownGroundIsHit ? climbCenterDownGroundHit.point + (-climbCenterDownGroundRoot.up * heightOffest): climbCenterDownGroundRoot.position + (-climbCenterDownGroundRoot.up * climbCenterDownGroundGroundDistance);
+
+            climbEnd = forwardDownGroundIsHit ? forwardDownGroundHit.point : forwardDownGroundRoot.position + (-forwardDownGroundRoot.up * forwardDownGroundDistance);
+
             if (!forwardUpIsHit && !forwardMiddleIsHit && forwardDownIsHit)
             {
-                climbCenter = forwardMiddleCheckRoot.position + forwardMiddleCheckRoot.forward * forwardMiddleCheckDistance * 0.5f;
+
+                CanClimbObstacle = true;
             }
-            if (!forwardUpIsHit && forwardMiddleIsHit && forwardDownIsHit)
+            else if (!forwardUpIsHit && forwardMiddleIsHit && forwardDownIsHit)
             {
-                climbCenter = forwardUpCheckRoot.position + forwardUpCheckRoot.forward * forwardUpCheckDistance * 0.5f;
+                CanClimbObstacle = true;
+            }
+            else
+            {
+                CanClimbObstacle = false;
             }
         }
 
@@ -104,10 +130,30 @@ namespace GPL
                 Gizmos.DrawLine(forwardDownGroundRoot.position, forwardDownGroundRoot.position + -forwardDownGroundRoot.up * forwardDownGroundDistance);
             }
 
+            if (climbCenterDownGroundIsHit)
+            {
+                Gizmos.color = new Color(1f, 0f, 0f, 1.0f);
+                Gizmos.DrawLine(climbCenterDownGroundRoot.position, climbCenterDownGroundHit.point);
+            }
+            else
+            {
+                Gizmos.color = new Color(0f, 0f, 1f, 1.0f);
+                Gizmos.DrawLine(climbCenterDownGroundRoot.position, climbCenterDownGroundRoot.position + -climbCenterDownGroundRoot.up * climbCenterDownGroundGroundDistance);
+            }
+
+
+            if (CanClimbObstacle)
+            {
+                Gizmos.color = new Color(0f, 0f, 1f, 1.0f);
+                Gizmos.DrawLine(transform.position, climbCenter);
+                Gizmos.DrawLine(climbCenter, forwardDownGroundHit.point);
+            }
 
             Gizmos.color = new Color(0f, 0f, 1f, 1.0f);
-            Gizmos.DrawLine(transform.position,climbCenter);
-            Gizmos.DrawLine(climbCenter, forwardDownGroundHit.point);
+            Gizmos.DrawWireSphere(climbCenter, 0.1f);
+
+            Gizmos.color = new Color(0f, 0f, 1f, 1.0f);
+            Gizmos.DrawWireSphere(climbEnd, 0.1f);
         }
     }
 }

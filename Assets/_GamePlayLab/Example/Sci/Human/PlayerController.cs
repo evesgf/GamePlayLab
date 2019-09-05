@@ -32,9 +32,13 @@ namespace GPL
         private bool _isSprintStop;
 
         private bool _wall;
+
+        private bool _isClimbOverObs;
         #endregion
 
         #region PROPERTIES
+        public CapsuleCollider capsuleCollider { get; set; }
+
         public Animator animator { get; set; }
 
         /// <summary>
@@ -152,6 +156,12 @@ namespace GPL
             get { return _wall; }
             set { _wall = value; }
         }
+
+        public bool isClimbOverObs
+        {
+            get { return _isClimbOverObs; }
+            set { _isClimbOverObs=value; }
+        }
         #endregion
 
         #region Methold
@@ -176,6 +186,8 @@ namespace GPL
             _avatar.SetBool("IsSprintStop", _isSprintStop);
 
             _avatar.SetBool("IsWall", _wall);
+
+            _avatar.SetBool("IsClimbOverObs", _isClimbOverObs);
         }
 
         /// <summary>
@@ -201,7 +213,7 @@ namespace GPL
         /// </summary>
         public void CheckFall()
         {
-            if (!fly && !isJumping && !groundDetection.isOnGround && !isWall)
+            if (!fly && !isJumping && !groundDetection.isOnGround && !isWall && !isClimbOverObs)
             {
                 FSM.SwitchState((int)PlayerState.Fall, null, null);
             }
@@ -220,6 +232,7 @@ namespace GPL
             _rigidbody =GetComponent<Rigidbody>();
             animator = _avatar._animator;
             movement = GetComponent<PlayerMovement>();
+            capsuleCollider = GetComponent<CapsuleCollider>();
 
             yield return new WaitForEndOfFrame();
             yield return new WaitForEndOfFrame();
