@@ -33,10 +33,11 @@ namespace GPL
         public float climbCenterDownGroundGroundDistance = 2.0f;
         public bool climbCenterDownGroundIsHit;
         private RaycastHit climbCenterDownGroundHit;
-        public float heightOffest = 0.3f;
 
         public Vector3 climbCenter;
         public Vector3 climbEnd;
+
+        public ClimbOberObsType climbOberObsType;
 
         private bool _canClimbObstacle;
 
@@ -44,6 +45,11 @@ namespace GPL
         {
             get { return _canClimbObstacle; }
             set { _canClimbObstacle = value; }
+        }
+
+        public Vector3 ClimbCenterWithHighOffset(float heightOffset)
+        {
+            return climbCenter+(-climbCenterDownGroundRoot.up * heightOffset);
         }
 
         // Start is called before the first frame update
@@ -65,22 +71,25 @@ namespace GPL
 
             climbCenterDownGroundIsHit = Physics.Raycast(climbCenterDownGroundRoot.position, -climbCenterDownGroundRoot.up, out climbCenterDownGroundHit, climbCenterDownGroundGroundDistance, groundLayerMask);
 
-            climbCenter = climbCenterDownGroundIsHit ? climbCenterDownGroundHit.point + (-climbCenterDownGroundRoot.up * heightOffest): climbCenterDownGroundRoot.position + (-climbCenterDownGroundRoot.up * climbCenterDownGroundGroundDistance);
+            climbCenter = climbCenterDownGroundIsHit ? climbCenterDownGroundHit.point: climbCenterDownGroundRoot.position + (-climbCenterDownGroundRoot.up * climbCenterDownGroundGroundDistance);
 
             climbEnd = forwardDownGroundIsHit ? forwardDownGroundHit.point : forwardDownGroundRoot.position + (-forwardDownGroundRoot.up * forwardDownGroundDistance);
 
+
             if (!forwardUpIsHit && !forwardMiddleIsHit && forwardDownIsHit)
             {
-
                 CanClimbObstacle = true;
+                climbOberObsType = ClimbOberObsType.Low;
             }
             else if (!forwardUpIsHit && forwardMiddleIsHit && forwardDownIsHit)
             {
                 CanClimbObstacle = true;
+                climbOberObsType = ClimbOberObsType.High;
             }
             else
             {
                 CanClimbObstacle = false;
+                climbOberObsType = ClimbOberObsType.None;
             }
         }
 

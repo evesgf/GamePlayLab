@@ -81,7 +81,7 @@ namespace GPL
             }
 
             //墙面检测
-            if (playerController.wallDetection.forwardUpIsHit || playerController.wallDetection.forwardUpIsHit || playerController.wallDetection.forwardUpIsHit)
+            if (playerController.wallDetection.forwardUpIsHit || playerController.wallDetection.forwardMiddleIsHit || playerController.wallDetection.forwardDownIsHit)
             {
                 FSM.SwitchState((int)PlayerState.WallMovement, null, null);
             }

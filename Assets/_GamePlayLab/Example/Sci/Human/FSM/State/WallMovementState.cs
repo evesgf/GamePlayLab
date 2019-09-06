@@ -33,6 +33,12 @@ namespace GPL
 
             playerController.movement.useGravity = false;
             playerController.movement.velocity = Vector3.zero;
+
+            playerController.LockHorizontal = false;
+
+            //旋转角色贴合墙面
+            playerController.transform.rotation= Quaternion.AngleAxis(-90f, playerController.transform.right);
+            playerController.transform.rotation = Quaternion.LookRotation(Vector3.up);
         }
 
         public override void OnLeave(IState nextState, object param1, object param2)
