@@ -6,9 +6,12 @@ namespace GPL
 {
     public class WallMovementState : StateBase
     {
-        public moveType moveType = moveType.MoveToForward;
+        public MovementType moveType = MovementType.MoveToForward;
+
+        public float moveAniSpeed = 1.2f;
+        public float moveSpeed=5;
         public float drag = 0.1f;
-        public float rotateSpeed;
+        public float rotateSpeed=8f;
 
         private StateMachine FSM;
         private PlayerController playerController;
@@ -32,13 +35,12 @@ namespace GPL
             playerController.isWall = true;
 
             playerController.movement.useGravity = false;
-            playerController.movement.velocity = Vector3.zero;
+            //playerController.movement.velocity = Vector3.zero;
 
             playerController.LockHorizontal = false;
 
             //旋转角色贴合墙面
-            playerController.transform.rotation= Quaternion.AngleAxis(-90f, playerController.transform.right);
-            playerController.transform.rotation = Quaternion.LookRotation(Vector3.up);
+            playerController.transform.rotation= Quaternion.AngleAxis(-90f, Vector3.right)*playerController.transform.rotation;
         }
 
         public override void OnLeave(IState nextState, object param1, object param2)
@@ -51,34 +53,36 @@ namespace GPL
 
         public override void OnFixedUpdate(float elapseSeconds, float realElapseSeconds)
         {
-            //触地检测
+            //触墙检测
             if (playerController.groundDetection.isOnGround)
             {
-                FSM.SwitchState((int)PlayerState.GroundMovement, null, null);
+                playerController.movement.useGravity = false;
             }
 
             switch (moveType)
             {
-                case moveType.MoveToForward:
-                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right, drag);
+                case MovementType.MoveToForward:
+                    playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * playerController.transform.forward + playerController.currentMoveDirection.x * Vector3.right, drag);
                     break;
 
-                case moveType.MoveToCamera:
+                case MovementType.MoveToCamera:
                     break;
 
-                case moveType.MoveToTarget:
+                case MovementType.MoveToTarget:
                     break;
 
                 default:
                     break;
             }
 
-            //playerController.movement.Move(playerController.realMoveDirection, moveSpeed, elapseSeconds);
+            playerController.aniSpeed = moveAniSpeed;
 
-            if (playerController.currentMoveDirection != Vector3.zero)
-            {
-                playerController.movement.GroundRotate(playerController.currentMoveDirection, rotateSpeed, elapseSeconds);
-            }
+            playerController.movement.GroundMove(playerController.realMoveDirection, moveSpeed, elapseSeconds,playerController.groundDetection.surfaceNormal, playerController.groundDetection.surfaceNormal.normalized);
+
+            //if (playerController.currentMoveDirection != Vector3.zero)
+            //{
+            //    playerController.movement.GroundRotate(playerController.currentMoveDirection, rotateSpeed, elapseSeconds);
+            //}
         }
 
         public override void OnLateUpdate(float elapseSeconds, float realElapseSeconds)

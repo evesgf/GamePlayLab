@@ -7,7 +7,7 @@ namespace GPL
     /// <summary>
     /// 角色移动类型
     /// </summary>
-    public enum moveType
+    public enum MovementType
     {
         MoveToForward = 0,
         MoveToCamera = 1,
@@ -54,10 +54,10 @@ namespace GPL
 
         #region METHODS
         //移动
-        public void GroundMove(Vector3 desiredVelocity,float moveSpeed,float elapseSeconds)
+        public void GroundMove(Vector3 desiredVelocity,float moveSpeed,float elapseSeconds,Vector3 normal,Vector3 up)
         {
             desiredVelocity.y = 0;
-            desiredVelocity = GetTangent(desiredVelocity, Vector3.up, Vector3.up) * Mathf.Min(desiredVelocity.magnitude*moveSpeed, moveSpeed);
+            desiredVelocity = GetTangent(desiredVelocity, normal, up) * Mathf.Min(desiredVelocity.magnitude*moveSpeed, moveSpeed);
 
             velocity = desiredVelocity;
 

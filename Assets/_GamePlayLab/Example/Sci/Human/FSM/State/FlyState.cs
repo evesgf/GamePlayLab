@@ -9,7 +9,7 @@ namespace GPL
         public Transform cam;
 
         [Header("Normal Fly")]
-        public moveType normalMoveType = moveType.MoveToForward;
+        public MovementType normalMoveType = MovementType.MoveToForward;
 
         public float normalBlur = 0;
         public float sprintBlur = 0.007f;
@@ -22,7 +22,7 @@ namespace GPL
         public float moveRotateSpeed;
 
         [Header("Sprint Fly")]
-        public moveType sprintMoveType = moveType.MoveToCamera;
+        public MovementType sprintMoveType = MovementType.MoveToCamera;
         public float sprintAniSpeed = 1.0f;
         public float sprintSpeed;
         public float sprintDrag = 0.1f;
@@ -39,7 +39,7 @@ namespace GPL
 
         private Vector3 camForward;
 
-        private moveType moveType;
+        private MovementType moveType;
         private bool isSprint;
         private bool isSprintStop;
         private bool isSprintStopTimer;
@@ -170,7 +170,7 @@ namespace GPL
                 camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
                 switch (moveType)
                 {
-                    case moveType.MoveToForward:
+                    case MovementType.MoveToForward:
                         playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
 
                         //朝向视口
@@ -183,7 +183,7 @@ namespace GPL
                         playerController.LockHorizontal = true;
                         break;
 
-                    case moveType.MoveToCamera:
+                    case MovementType.MoveToCamera:
                         playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, moveDrag);
 
                         //朝向视口
@@ -193,7 +193,7 @@ namespace GPL
                         playerController.LockHorizontal = false;
                         break;
 
-                    case moveType.MoveToTarget:
+                    case MovementType.MoveToTarget:
                         break;
 
                     default:
@@ -202,7 +202,7 @@ namespace GPL
             }
 
             //SprintStop状态检测
-            if ((moveType == moveType.MoveToCamera ? playerController.currentMoveDirection.z < float.Epsilon : playerController.currentMoveDirection == Vector3.zero) && isSprint && isSprintStop == false)
+            if ((moveType == MovementType.MoveToCamera ? playerController.currentMoveDirection.z < float.Epsilon : playerController.currentMoveDirection == Vector3.zero) && isSprint && isSprintStop == false)
             {
                 StartCoroutine(OnSprintStop());
             }

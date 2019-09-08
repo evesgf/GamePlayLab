@@ -7,7 +7,7 @@ namespace GPL
     public class JumpState : StateBase
     {
         [Header("Jump")]
-        public moveType moveType = moveType.MoveToForward;
+        public MovementType moveType = MovementType.MoveToForward;
 
         public float moveAniSpeed = 1.0f;
 
@@ -81,7 +81,7 @@ namespace GPL
             }
 
             //墙面检测
-            if (playerController.wallDetection.forwardUpIsHit || playerController.wallDetection.forwardMiddleIsHit || playerController.wallDetection.forwardDownIsHit)
+            if (playerController.wallDetection.CanClimbWall)
             {
                 FSM.SwitchState((int)PlayerState.WallMovement, null, null);
             }
@@ -90,14 +90,14 @@ namespace GPL
 
             switch (moveType)
             {
-                case moveType.MoveToForward:
+                case MovementType.MoveToForward:
                     playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right, drag);
                     break;
 
-                case moveType.MoveToCamera:
+                case MovementType.MoveToCamera:
                     break;
 
-                case moveType.MoveToTarget:
+                case MovementType.MoveToTarget:
                     break;
 
                 default:

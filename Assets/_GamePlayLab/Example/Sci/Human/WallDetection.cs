@@ -40,11 +40,18 @@ namespace GPL
         public ClimbOberObsType climbOberObsType;
 
         private bool _canClimbObstacle;
+        private bool _canClimbWall;
 
-        public bool CanClimbObstacle
+        public bool CanClimbObs
         {
             get { return _canClimbObstacle; }
             set { _canClimbObstacle = value; }
+        }
+
+        public bool CanClimbWall
+        {
+            get { return _canClimbWall; }
+            set { _canClimbWall = value; }
         }
 
         public Vector3 ClimbCenterWithHighOffset(float heightOffset)
@@ -78,17 +85,25 @@ namespace GPL
 
             if (!forwardUpIsHit && !forwardMiddleIsHit && forwardDownIsHit)
             {
-                CanClimbObstacle = true;
+                CanClimbObs = true;
+                CanClimbWall = false;
                 climbOberObsType = ClimbOberObsType.Low;
             }
             else if (!forwardUpIsHit && forwardMiddleIsHit && forwardDownIsHit)
             {
-                CanClimbObstacle = true;
+                CanClimbObs = true;
+                CanClimbWall = false;
                 climbOberObsType = ClimbOberObsType.High;
+            }
+            else if (forwardUpIsHit && forwardMiddleIsHit && forwardDownIsHit)
+            {
+                CanClimbObs = false;
+                CanClimbWall = true;
             }
             else
             {
-                CanClimbObstacle = false;
+                CanClimbObs = false;
+                CanClimbWall = false;
                 climbOberObsType = ClimbOberObsType.None;
             }
         }
@@ -151,7 +166,7 @@ namespace GPL
             }
 
 
-            if (CanClimbObstacle)
+            if (CanClimbObs)
             {
                 Gizmos.color = new Color(0f, 0f, 1f, 1.0f);
                 Gizmos.DrawLine(transform.position, climbCenter);

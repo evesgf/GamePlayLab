@@ -9,7 +9,7 @@ namespace GPL
         public Transform cam;
 
         [Header("Normal Run")]
-        public moveType moveType = moveType.MoveToForward;
+        public MovementType moveType = MovementType.MoveToForward;
 
         public float moveAniSpeed=1.0f;
         public float moveSpeed;
@@ -48,7 +48,7 @@ namespace GPL
             for (float i = 0; i < sprintStopDuration; i+=Time.deltaTime)
             {
                 //沿当前刚体移动方向继续移动
-                playerController.movement.GroundMove(moveDir, sprintStopCurve.Evaluate(i / sprintStopDuration) * sprintSpeed ,i);
+                playerController.movement.GroundMove(moveDir, sprintStopCurve.Evaluate(i / sprintStopDuration) * sprintSpeed ,i,Vector3.up,Vector3.up);
                 yield return i;
             }
             isSprintStop = false;
@@ -84,7 +84,7 @@ namespace GPL
             playerController.aniSpeed = isSprint? sprintAniSpeed:moveAniSpeed;
 
             //ClimbOverObs Check
-            if (playerController.wallDetection.CanClimbObstacle && playerController.currentMoveDirection.magnitude==1)
+            if (playerController.wallDetection.CanClimbObs && playerController.currentMoveDirection.magnitude==1)
             {
                 FSM.SwitchState((int)PlayerState.ClimbOverObs, null, null);
             }
@@ -95,7 +95,7 @@ namespace GPL
                 camForward = Vector3.Scale(cam.forward, new Vector3(1, 0, 1)).normalized;
                 switch (moveType)
                 {
-                    case moveType.MoveToForward:
+                    case MovementType.MoveToForward:
                         playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, isSprint ? sprintDrag : moveDrag);
 
                         //朝向视口
@@ -108,7 +108,7 @@ namespace GPL
                         playerController.LockHorizontal = true;
                         break;
 
-                    case moveType.MoveToCamera:
+                    case MovementType.MoveToCamera:
                         playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * camForward + playerController.currentMoveDirection.x * cam.right + playerController.currentMoveDirection.y * Vector3.up, moveDrag);
 
                         //朝向视口
@@ -118,7 +118,7 @@ namespace GPL
                         playerController.LockHorizontal = false;
                         break;
 
-                    case moveType.MoveToTarget:
+                    case MovementType.MoveToTarget:
                         break;
 
                     default:
@@ -127,7 +127,7 @@ namespace GPL
             }
 
             //SprintStop状态检测
-            if ((moveType==moveType.MoveToCamera? playerController.currentMoveDirection.z < float.Epsilon: playerController.currentMoveDirection ==Vector3.zero) && isSprint && isSprintStop == false)
+            if ((moveType==MovementType.MoveToCamera? playerController.currentMoveDirection.z < float.Epsilon: playerController.currentMoveDirection ==Vector3.zero) && isSprint && isSprintStop == false)
             {
                 StartCoroutine(OnSprintStop());
             }
@@ -136,7 +136,7 @@ namespace GPL
                 if (!isSprintStop)
                 {
                     //移动
-                    playerController.movement.GroundMove(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds);
+                    playerController.movement.GroundMove(playerController.realMoveDirection, isSprint ? sprintSpeed : moveSpeed, elapseSeconds,Vector3.up,Vector3.up);
                 }
             }
         }

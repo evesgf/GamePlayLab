@@ -6,7 +6,7 @@ namespace GPL
 {
     public class FallState : StateBase
     {
-        public moveType moveType = moveType.MoveToForward;
+        public MovementType moveType = MovementType.MoveToForward;
         public float drag = 0.1f;
         public float rotateSpeed;
 
@@ -48,14 +48,14 @@ namespace GPL
 
             switch (moveType)
             {
-                case moveType.MoveToForward:
+                case MovementType.MoveToForward:
                     playerController.realMoveDirection = Vector3.MoveTowards(playerController.realMoveDirection, playerController.currentMoveDirection.z * Vector3.forward + playerController.currentMoveDirection.x * Vector3.right, drag);
                     break;
 
-                case moveType.MoveToCamera:
+                case MovementType.MoveToCamera:
                     break;
 
-                case moveType.MoveToTarget:
+                case MovementType.MoveToTarget:
                     break;
 
                 default:

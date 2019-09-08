@@ -45,9 +45,7 @@ namespace GPL
         {
             get
             {
-                if (_capsuleCollider == null)
-                    _capsuleCollider = GetComponent<CapsuleCollider>();
-
+                if (_capsuleCollider == null) _capsuleCollider = GetComponent<CapsuleCollider>();
                 return _capsuleCollider;
             }
         }
@@ -63,6 +61,10 @@ namespace GPL
         public Vector3 groundPoint
         {
             get { return _groundHitInfo.groundPoint; }
+        }
+        public Vector3 groundNormal
+        {
+            get { return _groundHitInfo.groundNormal; }
         }
         public Vector3 surfaceNormal
         {
