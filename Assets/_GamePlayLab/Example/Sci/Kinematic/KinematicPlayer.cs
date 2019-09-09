@@ -83,6 +83,7 @@ namespace GPL.KC
             movement = GetComponent<KinematicMovement>();
             movement.kinematicPlayer = this;
             groundDetection = GetComponent<KinematicGroundDetection>();
+            groundDetection.movement = movement;
         }
 
         private void Start()

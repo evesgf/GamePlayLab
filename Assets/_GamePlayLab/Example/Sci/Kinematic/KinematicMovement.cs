@@ -91,14 +91,31 @@ namespace GPL.KC
         public void ApplyAirMovement(Vector3 desiredVelocity, float maxDesiredSpeed, float acceleration,
             float deceleration)
         {
-            //var v = Vector3.ProjectOnPlane(velocity, -gravityDir);
+            var v = Vector3.ProjectOnPlane(velocity, -gravityDir);
 
-            //desiredVelocity = GetTangent(desiredVelocity, kinematicPlayer.groundDetection.surfaceNormal, -gravityDir);
+            desiredVelocity = GetTangent(desiredVelocity, kinematicPlayer.groundDetection.surfaceNormal, -gravityDir);
 
-            //currentVelocity = desiredVelocity * maxDesiredSpeed+ gravityDir * gravity * Time.fixedDeltaTime;
+            currentVelocity = desiredVelocity * maxDesiredSpeed + gravityDir * gravity * Time.fixedDeltaTime;
+
+            if (kinematicPlayer.groundDetection.isOnGround)
+            {
+                if (Vector3.Dot(currentVelocity, kinematicPlayer.groundDetection.surfaceNormal) <= 0.0f)
+                {
+                    var speedLimit = Mathf.Min(desiredVelocity.magnitude, maxDesiredSpeed);
+
+                    var lateralVelocity = Vector3.ProjectOnPlane(velocity, -gravityDir);
+
+                    desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, -gravityDir) +
+                                      Vector3.Project(lateralVelocity, -gravityDir);
+
+                    desiredVelocity = Vector3.ClampMagnitude(desiredVelocity, speedLimit);
+                }
+            }
+
+            velocity = currentVelocity;
 
             // Gravity
-            if (useGravity) currentVelocity += gravityDir * gravity * Time.fixedDeltaTime;
+            if (useGravity) velocity += gravityDir * gravity * Time.fixedDeltaTime;
         }
 
         /// <summary>
@@ -122,7 +139,7 @@ namespace GPL.KC
         /// <param name="fixedDeltaTime"></param>
         public void UpdateVeleocity(float fixedDeltaTime)
         {
-            velocity = currentVelocity;
+            //velocity = currentVelocity;
         }
         #endregion
 

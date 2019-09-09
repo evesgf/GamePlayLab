@@ -18,6 +18,8 @@ namespace GPL.KC
 
     public class KinematicGroundDetection : MonoBehaviour
     {
+        public KinematicMovement movement;
+
         //地面层
         [SerializeField]
         private LayerMask _groundMask = 1;
@@ -84,14 +86,18 @@ namespace GPL.KC
         //地面检测
         public void DetectGround()
         {
+            capsuleCollider.isTrigger = true;
+
             ComputeGroundHit(transform.position, transform.rotation, castDistance);
+
+            capsuleCollider.isTrigger = false;
         }
 
         public bool ComputeGroundHit(Vector3 position, Quaternion rotation, 
             float distance = Mathf.Infinity)
         {
             if (BottomSphereCast(position, rotation, out hitInfo, distance) &&
-                Vector3.Angle(hitInfo.normal, rotation * Vector3.up) < 89.0f)
+                Vector3.Angle(hitInfo.normal, rotation * -movement.gravityDir) < 89.0f)
             {
                 groundDetectionInfo.isOnGround = true;
                 groundDetectionInfo.groundPoint = hitInfo.point;
@@ -112,10 +118,10 @@ namespace GPL.KC
         {
             var radius = capsuleCollider.radius;
             var height = Mathf.Max(0.0f, capsuleCollider.height * 0.5f - radius);
-            var center = capsuleCollider.center - Vector3.up * height;
+            var center = capsuleCollider.center - -movement.gravityDir * height;
 
             var origin = position + rotation * center;
-            var down = rotation * Vector3.down;
+            var down = rotation * movement.gravityDir;
 
             return SphereCast(origin, radius, down, out hitInfo, distance, backstepDistance);
         }
@@ -137,7 +143,7 @@ namespace GPL.KC
 #if UNITY_EDITOR
             if (!Application.isPlaying) return;
 
-            if (!isOnGround) return;
+            //if (!isOnGround) return;
 
             var color = new Color(0.0f, 1.0f, 0.0f, 0.25f);
 
