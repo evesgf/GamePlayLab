@@ -13258,7 +13258,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 746694412}
   m_LocalRotation: {x: -0, y: 0.70710677, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 67.73752, y: 22.43, z: -134.69249}
+  m_LocalPosition: {x: 67.73752, y: 24.64, z: -134.69249}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 41135014}
@@ -13309,7 +13309,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _useGravity: 1
-  _gravity: 2
+  _gravity: 9.8
 --- !u!114 &746694417
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13324,11 +13324,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 2031641880}
   movementType: 0
-  maxMoveSpeed: 10
-  moveAcceleratedSpeed: 15
-  moveDamp: 10
-  movement: {fileID: 0}
-  groundDetection: {fileID: 0}
+  maxMoveSpeed: 5
+  moveAcceleratedSpeed: 50
+  moveDamp: 20
+  movement: {fileID: 746694416}
+  groundDetection: {fileID: 746694418}
 --- !u!114 &746694418
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -13341,11 +13341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2797ff60d956f42808a69a2c11a686, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  movement: {fileID: 0}
+  movement: {fileID: 746694416}
   _groundMask:
     serializedVersion: 2
     m_Bits: 1
-  _castDistance: 0.01
+  _castDistance: 0.5
 --- !u!1 &757686060
 GameObject:
   m_ObjectHideFlags: 0

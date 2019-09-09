@@ -36,6 +36,8 @@ namespace GPL.KC
         protected const float minCastDistance = 0.01f;          //最小检测距离
 
         private RaycastHit hitInfo;
+
+        private float _referenceCastDistance;
         #endregion
 
         #region PROPERTIES
@@ -91,6 +93,8 @@ namespace GPL.KC
             ComputeGroundHit(transform.position, transform.rotation, castDistance);
 
             capsuleCollider.isTrigger = false;
+
+            castDistance = isOnGround ? _referenceCastDistance : minCastDistance;
         }
 
         public bool ComputeGroundHit(Vector3 position, Quaternion rotation, 
@@ -174,7 +178,7 @@ namespace GPL.KC
         // Start is called before the first frame update
         void Start()
         {
-
+            _referenceCastDistance = castDistance;
         }
 
         // Update is called once per frame

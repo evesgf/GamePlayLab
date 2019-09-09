@@ -81,7 +81,7 @@ namespace GPL.KC
         void Awake()
         {
             movement = GetComponent<KinematicMovement>();
-            movement.kinematicPlayer = this;
+            movement.player = this;
             groundDetection = GetComponent<KinematicGroundDetection>();
             groundDetection.movement = movement;
         }
@@ -90,6 +90,7 @@ namespace GPL.KC
         {
             
         }
+
 
         // Update is called once per frame
         void Update()
@@ -105,13 +106,15 @@ namespace GPL.KC
 
         private void FixedUpdate()
         {
+            groundDetection.DetectGround();
+
             if (groundDetection.isOnGround)
             {
-                movement.ApplyGroundMovement(currentMoveDirection, maxMoveSpeed, moveAcceleratedSpeed, moveDamp);
+                movement.ApplyGroundMovement(currentMoveDirection* maxMoveSpeed, maxMoveSpeed, moveAcceleratedSpeed, moveDamp);
             }
             else
             {
-                movement.ApplyAirMovement(currentMoveDirection, maxMoveSpeed, moveAcceleratedSpeed, moveDamp);
+                movement.ApplyAirMovement(currentMoveDirection*maxMoveSpeed, maxMoveSpeed, moveAcceleratedSpeed, moveDamp);
             }
         }
 

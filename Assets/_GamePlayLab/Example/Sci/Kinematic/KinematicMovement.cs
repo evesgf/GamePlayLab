@@ -17,7 +17,7 @@ namespace GPL.KC
         private Vector3 currentVelocity;
 
         #region PROPERTIES
-        public KinematicPlayer kinematicPlayer { get; set; }
+        public KinematicPlayer player { get; set; }
 
         //重力开关
         public bool useGravity
@@ -71,14 +71,25 @@ namespace GPL.KC
         public void ApplyGroundMovement(Vector3 desiredVelocity, float maxDesiredSpeed, float acceleration,
             float deceleration)
         {
-            var v= Vector3.ProjectOnPlane(velocity, -gravityDir);
+            var v = velocity;
 
-            desiredVelocity = GetTangent(desiredVelocity,kinematicPlayer.groundDetection.surfaceNormal, -gravityDir);
+            var desiredSpeed = desiredVelocity.magnitude;
+            var speedLimit = desiredSpeed > 0.0f ? Mathf.Min(desiredSpeed, maxDesiredSpeed) : maxDesiredSpeed;
 
-            currentVelocity = desiredVelocity * maxDesiredSpeed;
+            var desiredDirection = GetTangent(desiredVelocity, player.groundDetection.surfaceNormal,-gravityDir);
+            var desiredAcceleration = desiredDirection * acceleration * Time.fixedDeltaTime;
 
-            // Gravity
-            if (useGravity) currentVelocity += gravityDir * gravity * Time.fixedDeltaTime;
+            if (desiredAcceleration == Vector3.zero || v.sqrMagnitude > speedLimit)
+            {
+                v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
+                v = Vector3.MoveTowards(v, desiredVelocity, deceleration * Time.fixedDeltaTime);
+            }
+            else
+            {
+                v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
+                v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
+            }
+            velocity += v - velocity;
         }
 
         /// <summary>
@@ -93,26 +104,35 @@ namespace GPL.KC
         {
             var v = Vector3.ProjectOnPlane(velocity, -gravityDir);
 
-            desiredVelocity = GetTangent(desiredVelocity, kinematicPlayer.groundDetection.surfaceNormal, -gravityDir);
+            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, -gravityDir);
 
             currentVelocity = desiredVelocity * maxDesiredSpeed + gravityDir * gravity * Time.fixedDeltaTime;
 
-            if (kinematicPlayer.groundDetection.isOnGround)
+            var desiredSpeed = desiredVelocity.magnitude;
+            var speedLimit = desiredSpeed > 0.0f ? Mathf.Min(desiredSpeed, maxDesiredSpeed) : maxDesiredSpeed;
+            var desiredDirection = desiredSpeed > 0.0f ? desiredVelocity / desiredSpeed : Vector3.zero;
+            var desiredAcceleration = desiredDirection * acceleration * Time.fixedDeltaTime;
+
+            if (desiredAcceleration == Vector3.zero)
             {
-                if (Vector3.Dot(currentVelocity, kinematicPlayer.groundDetection.surfaceNormal) <= 0.0f)
-                {
-                    var speedLimit = Mathf.Min(desiredVelocity.magnitude, maxDesiredSpeed);
+                v = GetTangent(v, player.groundDetection.surfaceNormal,-gravityDir) * v.magnitude;
 
-                    var lateralVelocity = Vector3.ProjectOnPlane(velocity, -gravityDir);
+                // Braking friction (drag)
 
-                    desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, -gravityDir) +
-                                      Vector3.Project(lateralVelocity, -gravityDir);
+                v = v * Mathf.Clamp01(1f - 0 * Time.fixedDeltaTime);
 
-                    desiredVelocity = Vector3.ClampMagnitude(desiredVelocity, speedLimit);
-                }
+                // Deceleration
+
+                v = Vector3.MoveTowards(v, desiredVelocity, deceleration * Time.fixedDeltaTime);
+            }
+            else
+            {
+                // Acceleration
+
+                v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
             }
 
-            velocity = currentVelocity;
+            velocity += Vector3.ProjectOnPlane(v - velocity, -gravityDir);
 
             // Gravity
             if (useGravity) velocity += gravityDir * gravity * Time.fixedDeltaTime;
@@ -162,8 +182,6 @@ namespace GPL.KC
 
         private void FixedUpdate()
         {
-            kinematicPlayer.groundDetection.DetectGround();
-
             UpdateVeleocity(Time.fixedDeltaTime);
         }
 
