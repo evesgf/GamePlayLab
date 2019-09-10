@@ -82,6 +82,11 @@ namespace GPL.KC
         {
             get { return groundDetectionInfo.surfaceNormal; }
         }
+        //与地面的夹角
+        public float groundAngle
+        {
+            get { return !isOnGround ? 0.0f : Vector3.Angle(surfaceNormal, -movement.gravityDir); }
+        }
         #endregion
 
         #region METHOD
@@ -107,6 +112,8 @@ namespace GPL.KC
                 groundDetectionInfo.groundPoint = hitInfo.point;
                 groundDetectionInfo.surfaceNormal = hitInfo.normal;
 
+                DetectLedgeAndSteps(position,rotation,distance,hitInfo.point,hitInfo.normal);
+
                 return true;
             }
             else
@@ -115,6 +122,24 @@ namespace GPL.KC
 
                 return false;
             }
+        }
+
+        public void DetectLedgeAndSteps(Vector3 position, Quaternion rotation, float distance, Vector3 point, Vector3 normal)
+        {
+            Vector3 up = rotation * -movement.gravityDir, down = -up;
+            var projectedNormal = Vector3.ProjectOnPlane(normal, up).normalized;
+            var nearPoint = point + projectedNormal * 0.001f;
+            var farPoint = point - projectedNormal * 0.001f;
+            var ledgeStepDistance = Mathf.Max(0.001f, Mathf.Max(0.3f, distance));
+
+            //RaycastHit nearHitInfo;
+            //var nearHit = Raycast(nearPoint, down, out nearHitInfo, ledgeStepDistance);
+            //var isNearGroundValid = nearHit && Vector3.Angle(nearHitInfo.normal, up) < groundLimit;
+
+            //RaycastHit farHitInfo;
+            //var farHit = Raycast(farPoint, down, out farHitInfo, ledgeStepDistance);
+            //var isFarGroundValid = farHit && Vector3.Angle(farHitInfo.normal, up) < groundLimit;
+
         }
 
         private bool BottomSphereCast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,

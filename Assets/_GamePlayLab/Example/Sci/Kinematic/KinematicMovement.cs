@@ -16,6 +16,12 @@ namespace GPL.KC
 
         private Vector3 currentVelocity;
 
+        [Header("斜坡滑动")]
+        [SerializeField]
+        private bool _slideOnSteepSlope;
+        [SerializeField]
+        private float _slopeLimit=60;
+
         #region PROPERTIES
         public KinematicPlayer player { get; set; }
 
@@ -59,10 +65,24 @@ namespace GPL.KC
             get { return _gravityDir; }
             set { _gravityDir = value; }
         }
+
+        public bool slideOnSteepSlope
+        {
+            get { return _slideOnSteepSlope; }
+            set { _slideOnSteepSlope = value; }
+        }
+
+        public float slopeLimit
+        {
+            get { return _slopeLimit; }
+            set { _slopeLimit = Mathf.Clamp(value, 0.0f, 89.0f); }
+        }
+
+        public bool isSliding { get; private set; }
         #endregion
 
         #region METHOD
-        
+
         /// <summary>
         /// 地面移动，恒定向下重力以便处理滑动
         /// </summary>
@@ -71,25 +91,36 @@ namespace GPL.KC
         public void ApplyGroundMovement(Vector3 desiredVelocity, float maxDesiredSpeed, float acceleration,
             float deceleration)
         {
-            var v = velocity;
-
-            var desiredSpeed = desiredVelocity.magnitude;
-            var speedLimit = desiredSpeed > 0.0f ? Mathf.Min(desiredSpeed, maxDesiredSpeed) : maxDesiredSpeed;
-
-            var desiredDirection = GetTangent(desiredVelocity, player.groundDetection.surfaceNormal,-gravityDir);
-            var desiredAcceleration = desiredDirection * acceleration * Time.fixedDeltaTime;
-
-            if (desiredAcceleration == Vector3.zero || v.sqrMagnitude > speedLimit)
+            if (!slideOnSteepSlope || player.groundDetection.groundAngle < slopeLimit)
             {
-                v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
-                v = Vector3.MoveTowards(v, desiredVelocity, deceleration * Time.fixedDeltaTime);
+                var v = velocity;
+
+                var desiredSpeed = desiredVelocity.magnitude;
+                var speedLimit = desiredSpeed > 0.0f ? Mathf.Min(desiredSpeed, maxDesiredSpeed) : maxDesiredSpeed;
+
+                var desiredDirection = GetTangent(desiredVelocity, player.groundDetection.surfaceNormal, -gravityDir);
+                var desiredAcceleration = desiredDirection * acceleration * Time.fixedDeltaTime;
+
+                if (desiredAcceleration == Vector3.zero || v.sqrMagnitude > speedLimit)
+                {
+                    v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
+                    v = Vector3.MoveTowards(v, desiredVelocity, deceleration * Time.fixedDeltaTime);
+                }
+                else
+                {
+                    v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
+                    v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
+                }
+                velocity += v - velocity;
             }
             else
             {
-                v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
-                v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
+                desiredVelocity = Vector3.MoveTowards(velocity, desiredVelocity,
+    Mathf.Min(acceleration, gravity) * Time.fixedDeltaTime);
+
+                velocity += Vector3.ProjectOnPlane(desiredVelocity - velocity, -gravityDir) +
+                            gravityDir * (gravity * Time.fixedDeltaTime);
             }
-            velocity += v - velocity;
         }
 
         /// <summary>
