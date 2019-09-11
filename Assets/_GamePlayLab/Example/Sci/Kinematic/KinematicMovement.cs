@@ -12,6 +12,7 @@ namespace GPL.KC
         private float _gravity = 25.0f;
 
         private Rigidbody _rigidbody;
+        [SerializeField]
         private Vector3 _gravityDir=new Vector3(0,-1,0);
 
         private Vector3 currentVelocity;
@@ -83,6 +84,17 @@ namespace GPL.KC
 
         #region METHOD
 
+        public void ApplyRotation(Vector3 desiredRotation)
+        {
+            desiredRotation.Normalize();
+            Quaternion _rotationDifference = Quaternion.FromToRotation(transform.up, desiredRotation);
+            Quaternion _startRotation = transform.rotation;
+            Quaternion _endRotation = _rotationDifference * transform.rotation;
+
+            //Rotate rigidbody;
+            _rigidbody.MoveRotation(_endRotation);
+        }
+
         /// <summary>
         /// 地面移动，恒定向下重力以便处理滑动
         /// </summary>
@@ -98,17 +110,17 @@ namespace GPL.KC
                 var desiredSpeed = desiredVelocity.magnitude;
                 var speedLimit = desiredSpeed > 0.0f ? Mathf.Min(desiredSpeed, maxDesiredSpeed) : maxDesiredSpeed;
 
-                var desiredDirection = GetTangent(desiredVelocity, player.groundDetection.surfaceNormal, -gravityDir);
+                var desiredDirection = GetTangent(desiredVelocity, player.groundDetection.surfaceNormal, transform.rotation*-gravityDir);
                 var desiredAcceleration = desiredDirection * acceleration * Time.fixedDeltaTime;
 
                 if (desiredAcceleration == Vector3.zero || v.sqrMagnitude > speedLimit)
                 {
-                    v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
+                    v = GetTangent(v, player.groundDetection.surfaceNormal, transform.rotation * -gravityDir) * v.magnitude;
                     v = Vector3.MoveTowards(v, desiredVelocity, deceleration * Time.fixedDeltaTime);
                 }
                 else
                 {
-                    v = GetTangent(v, player.groundDetection.surfaceNormal, -gravityDir) * v.magnitude;
+                    v = GetTangent(v, player.groundDetection.surfaceNormal, transform.rotation * -gravityDir) * v.magnitude;
                     v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
                 }
                 velocity += v - velocity;
@@ -118,7 +130,7 @@ namespace GPL.KC
                 desiredVelocity = Vector3.MoveTowards(velocity, desiredVelocity,
     Mathf.Min(acceleration, gravity) * Time.fixedDeltaTime);
 
-                velocity += Vector3.ProjectOnPlane(desiredVelocity - velocity, -gravityDir) +
+                velocity += Vector3.ProjectOnPlane(desiredVelocity - velocity, transform.rotation * -gravityDir) +
                             gravityDir * (gravity * Time.fixedDeltaTime);
             }
         }
@@ -133,11 +145,11 @@ namespace GPL.KC
         public void ApplyAirMovement(Vector3 desiredVelocity, float maxDesiredSpeed, float acceleration,
             float deceleration)
         {
-            var v = Vector3.ProjectOnPlane(velocity, -gravityDir);
+            var v = Vector3.ProjectOnPlane(velocity, transform.rotation * -gravityDir);
 
-            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, -gravityDir);
+            desiredVelocity = Vector3.ProjectOnPlane(desiredVelocity, transform.rotation * -gravityDir);
 
-            currentVelocity = desiredVelocity * maxDesiredSpeed + gravityDir * gravity * Time.fixedDeltaTime;
+            currentVelocity = desiredVelocity * maxDesiredSpeed + transform.rotation * gravityDir * gravity * Time.fixedDeltaTime;
 
             var desiredSpeed = desiredVelocity.magnitude;
             var speedLimit = desiredSpeed > 0.0f ? Mathf.Min(desiredSpeed, maxDesiredSpeed) : maxDesiredSpeed;
@@ -146,7 +158,7 @@ namespace GPL.KC
 
             if (desiredAcceleration == Vector3.zero)
             {
-                v = GetTangent(v, player.groundDetection.surfaceNormal,-gravityDir) * v.magnitude;
+                v = GetTangent(v, player.groundDetection.surfaceNormal, transform.rotation * -gravityDir) * v.magnitude;
 
                 // Braking friction (drag)
 
@@ -163,10 +175,10 @@ namespace GPL.KC
                 v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
             }
 
-            velocity += Vector3.ProjectOnPlane(v - velocity, -gravityDir);
+            velocity += Vector3.ProjectOnPlane(v - velocity, transform.rotation * -gravityDir);
 
             // Gravity
-            if (useGravity) velocity += gravityDir * gravity * Time.fixedDeltaTime;
+            if (useGravity) velocity += transform.rotation * gravityDir * gravity * Time.fixedDeltaTime;
         }
 
         /// <summary>

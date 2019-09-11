@@ -116,6 +116,8 @@ namespace GPL.KC
             {
                 movement.ApplyAirMovement(currentMoveDirection*maxMoveSpeed, maxMoveSpeed, moveAcceleratedSpeed, moveDamp);
             }
+
+            movement.ApplyRotation(-movement.gravityDir);
         }
 
         private void OnDrawGizmosSelected()

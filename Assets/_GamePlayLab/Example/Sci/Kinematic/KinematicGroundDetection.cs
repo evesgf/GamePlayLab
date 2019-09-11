@@ -120,7 +120,14 @@ namespace GPL.KC
             {
                 groundDetectionInfo.isOnGround = false;
 
-                return false;
+                if (!BottomRaycast(position, rotation, out hitInfo, distance))
+                    return false;
+
+                groundDetectionInfo.isOnGround = true;
+                groundDetectionInfo.groundPoint = hitInfo.point;
+                groundDetectionInfo.surfaceNormal = hitInfo.normal;
+
+                return true;
             }
         }
 
@@ -142,12 +149,54 @@ namespace GPL.KC
 
         }
 
+        private bool BottomRaycast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
+            float backstepDistance = kBackstepDistance)
+        {
+            var down = rotation * Vector3.down;
+            return Raycast(position, down, out hitInfo, distance, backstepDistance) &&
+                   SimulateSphereCast(position, rotation, hitInfo.normal, out hitInfo, distance, backstepDistance);
+        }
+        protected bool Raycast(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float distance,
+            float backstepDistance = kBackstepDistance)
+        {
+            origin = origin - direction * backstepDistance;
+
+            var hit = Physics.Raycast(origin, direction, out hitInfo, distance + backstepDistance, groundMask);
+            if (hit)
+                hitInfo.distance = hitInfo.distance - backstepDistance;
+
+            return hit;
+        }
+        private bool SimulateSphereCast(Vector3 position, Quaternion rotation, Vector3 normal, out RaycastHit hitInfo,
+            float distance = Mathf.Infinity, float backstepDistance = kBackstepDistance)
+        {
+            var origin = position;
+            var up = rotation * Vector3.up;
+
+            var angle = Vector3.Angle(normal, up) * Mathf.Deg2Rad;
+            if (angle > 0.0001f)
+            {
+                var radius = capsuleCollider.radius;
+
+                var x = Mathf.Sin(angle) * radius;
+                var y = (1.0f - Mathf.Cos(angle)) * radius;
+
+                var right = Vector3.Cross(normal, up);
+                var tangent = Vector3.Cross(right, normal);
+
+                origin += Vector3.ProjectOnPlane(tangent, up).normalized * x + up * y;
+            }
+
+            return Raycast(origin, -up, out hitInfo, distance, backstepDistance);
+        }
+
+
         private bool BottomSphereCast(Vector3 position, Quaternion rotation, out RaycastHit hitInfo, float distance,
             float backstepDistance = kBackstepDistance)
         {
             var radius = capsuleCollider.radius;
             var height = Mathf.Max(0.0f, capsuleCollider.height * 0.5f - radius);
-            var center = capsuleCollider.center - -movement.gravityDir * height;
+            var center = capsuleCollider.center - rotation *- movement.gravityDir * height;
 
             var origin = position + rotation * center;
             var down = rotation * movement.gravityDir;
