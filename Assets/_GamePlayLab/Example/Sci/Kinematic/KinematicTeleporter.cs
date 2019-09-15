@@ -41,7 +41,7 @@ namespace GPL.KC
             traget.TelObj = gameObject;
 
             gameObject.transform.position = traget.transform.position;
-            gameObject.transform.rotation = traget.transform.rotation;
+            //gameObject.transform.rotation = traget.transform.rotation;
 
             print("OnTeleporter");
         }

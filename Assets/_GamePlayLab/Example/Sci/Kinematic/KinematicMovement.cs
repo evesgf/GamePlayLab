@@ -91,6 +91,7 @@ namespace GPL.KC
             Quaternion _startRotation = transform.rotation;
             Quaternion _endRotation = _rotationDifference * transform.rotation;
 
+
             //Rotate rigidbody;
             _rigidbody.MoveRotation(_endRotation);
         }
@@ -124,6 +125,9 @@ namespace GPL.KC
                     v = Vector3.ClampMagnitude(v + desiredAcceleration, speedLimit);
                 }
                 velocity += v - velocity;
+
+                // Gravity
+                if (useGravity) velocity += transform.rotation * gravityDir * gravity * Time.fixedDeltaTime;
             }
             else
             {
@@ -191,6 +195,8 @@ namespace GPL.KC
         public Vector3 GetTangent(Vector3 direction, Vector3 normal, Vector3 up)
         {
             var right = Vector3.Cross(direction, up);
+            Debug.DrawRay(transform.position, right * 100f, Color.yellow);
+            Debug.DrawRay(transform.position, normal * 100f, Color.white);
             var tangent = Vector3.Cross(normal, right);
 
             return tangent.normalized;

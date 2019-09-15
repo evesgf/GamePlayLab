@@ -42,6 +42,7 @@ namespace GPL.KC
         {
             if (other.tag.Equals("Player") && AffectedObjs.Contains(other.GetComponent<KinematicMovement>()))
             {
+                other.GetComponent<KinematicMovement>().gravityDir = Vector3.down;
                 AffectedObjs.Remove(other.GetComponent<KinematicMovement>());
             }
         }

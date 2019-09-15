@@ -30,7 +30,7 @@ namespace GPL.KC
         public Vector3 currentMoveDirection
         {
             get { return _currentMoveDireciton; }
-            set { _currentMoveDireciton = GetCurrentMoveDirecitonFromMovementType(Vector3.ClampMagnitude(value, 1.0f)); }
+            set { _currentMoveDireciton = Vector3.ClampMagnitude(value, 1.0f); }
         }
 
         #region METHOD
@@ -73,6 +73,7 @@ namespace GPL.KC
                     break;
             }
 
+            Debug.DrawRay(transform.position, moveDir * 100f, Color.blue);
             return moveDir;
         }
         #endregion
@@ -106,6 +107,9 @@ namespace GPL.KC
 
         private void FixedUpdate()
         {
+
+            movement.ApplyRotation(-movement.gravityDir);
+
             groundDetection.DetectGround();
 
             if (groundDetection.isOnGround)
@@ -116,8 +120,6 @@ namespace GPL.KC
             {
                 movement.ApplyAirMovement(currentMoveDirection*maxMoveSpeed, maxMoveSpeed, moveAcceleratedSpeed, moveDamp);
             }
-
-            movement.ApplyRotation(-movement.gravityDir);
         }
 
         private void OnDrawGizmosSelected()
