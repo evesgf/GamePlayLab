@@ -97,22 +97,28 @@ namespace GPL
 
         void RotateToTarget()
         {
-            Quaternion r1 = Quaternion.FromToRotation(transform.up, -GravityDirection) * transform.rotation;
-
+            
             Vector3 lookInputVector = GetTangent(moveDirection, surfaceNormal, -GravityDirection);
-            Debug.DrawRay(transform.position, lookInputVector, Color.yellow);
+            Quaternion r1 = Quaternion.FromToRotation(transform.up, -GravityDirection) * transform.rotation;
+            Quaternion r2 = Quaternion.FromToRotation(transform.forward, lookInputVector) * r1;
+            Debug.DrawRay(transform.position, r2*lookInputVector, Color.yellow);
 
-            Quaternion r = r1;
 
-            Vector3 v = moveDirection;
-            Vector3 x = r * v;
 
-            Debug.DrawRay(transform.position, x, Color.blue);
 
             helper.position = transform.position;
             helper.rotation = r1;
 
-            transform.rotation = Quaternion.Slerp(transform.rotation, r1, rotateSpeed * Time.deltaTime);
+            var nr= Quaternion.Slerp(transform.rotation, r2, rotateSpeed * Time.deltaTime);
+
+            if(moveDirection!=Vector3.zero) transform.rotation = nr;
+
+            Quaternion r = transform.rotation;
+
+            Vector3 v = lookInputVector;
+            Vector3 x = r * v;
+            Debug.DrawRay(transform.position, x, Color.blue);
+
 
             Move(x);
         }
