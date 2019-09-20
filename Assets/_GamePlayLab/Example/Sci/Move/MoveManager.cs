@@ -25,6 +25,11 @@ namespace GPL.Movement
             InputHandler();
         }
 
+        public void SwtichMoveType()
+        {
+            //nowPlayer.SwtichMoveType(moveType);
+        }
+
         public void SwtichPlayer(MovePlayerBase player)
         {
             if (player != nowPlayer)

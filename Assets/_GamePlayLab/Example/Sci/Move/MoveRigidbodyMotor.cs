@@ -33,7 +33,7 @@ namespace GPL.Movement
 
             if (moveDir != Vector3.zero)
             {
-                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir), rotateSpeed * deltaTime));
+                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir,Vector3.up), rotateSpeed * deltaTime));
             }
         }
     }

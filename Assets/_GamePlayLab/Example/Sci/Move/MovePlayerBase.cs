@@ -48,5 +48,10 @@ namespace GPL.Movement
             Movement.Move(MoveDirection,moveSpeed,Time.fixedDeltaTime);
             Movement.Rotate(MoveDirection, rotateSpeed, Time.fixedDeltaTime);
         }
+
+        public virtual void SwtichMoveType(MoveType moveType)
+        {
+            _movement.SwitchMoveType(moveType);
+        }
     }
 }
