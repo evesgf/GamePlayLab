@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GPL.Movement
 {
-    public class MoveRigidbodyMotor : MoveMotorBase
+    public class MoveRigidbodyMotor_01 : MoveMotorBase
     {
         public Rigidbody _rigidbody;
 
@@ -33,7 +33,11 @@ namespace GPL.Movement
 
             if (moveDir != Vector3.zero)
             {
-                _rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir,Vector3.up), rotateSpeed * deltaTime));
+                Vector3 smoothLookDir = Vector3.Slerp(transform.forward, moveDir, 1 - Mathf.Exp(-rotateSpeed * deltaTime)).normalized;
+
+                _rigidbody.MoveRotation(Quaternion.LookRotation(smoothLookDir, transform.up));
+
+                //_rigidbody.MoveRotation(Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(moveDir,Vector3.up), rotateSpeed * deltaTime));
             }
         }
     }

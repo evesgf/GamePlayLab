@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace GPL.Movement
 {
@@ -8,10 +9,14 @@ namespace GPL.Movement
     {
         public CamRig camRig;
 
+        [Header("Player")]
         public MovePlayerBase player_rig;
         public MovePlayerBase player_cc;
 
         private MovePlayerBase nowPlayer;
+
+        [Header("PropertyUI")]
+        public Text txt_moveSpeed;
 
         // Start is called before the first frame update
         void Start()
@@ -23,6 +28,13 @@ namespace GPL.Movement
         void Update()
         {
             InputHandler();
+
+            ShowProperty();
+        }
+
+        public void ShowProperty()
+        {
+            if (txt_moveSpeed != null) txt_moveSpeed.text = nowPlayer.NowMoveSpeed.ToString("f2");
         }
 
         public void SwtichMoveType()

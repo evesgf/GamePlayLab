@@ -10,9 +10,10 @@ namespace GPL.Movement
         public Transform camTarget;
         public Transform avatar;
 
-        public float moveSpeed = 3f;
+        public float moveSpeed = 5f;
         public float rotateSpeed = 5f;
 
+        #region PROPERTY
         private Vector3 _moveDirection;
         public Vector3 MoveDirection
         {
@@ -31,10 +32,21 @@ namespace GPL.Movement
             set { _movement = value; }
         }
 
+        private Vector3 _lookDirection;
+        public Vector3 LookDirection
+        {
+            set { _lookDirection = Vector3.ClampMagnitude(value, 1f); }
+            get { return _lookDirection; }
+        }
+
+        public float NowMoveSpeed { get { return Movement.NowMoveSpeed; } }
+        #endregion
+
         // Start is called before the first frame update
         public virtual void Start()
         {
             Movement = GetComponent<MoveMotorBase>();
+            Movement.playerBase = this;
         }
 
         // Update is called once per frame

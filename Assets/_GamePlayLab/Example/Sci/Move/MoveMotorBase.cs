@@ -12,15 +12,22 @@ namespace GPL.Movement
 
     public abstract class MoveMotorBase : MonoBehaviour
     {
+        internal MovePlayerBase playerBase;
+
+        public float NowMoveSpeed { get; set; }
+
         // Start is called before the first frame update
         public virtual void Start() { }
 
         public virtual void Update() { }
 
+        public virtual void GroundCheck() { }
 
         public virtual void Move(Vector3 moveDir, float moveSpeed,float deltaTime) { }
 
         public virtual void Rotate(Vector3 moveDir, float rotateSpeed, float deltaTime) { }
+
+        public virtual void Rotate(Quaternion rotation, float rotateSpeed, float deltaTime) { }
 
         public virtual void SwitchMoveType(MoveType moveType)
         {
