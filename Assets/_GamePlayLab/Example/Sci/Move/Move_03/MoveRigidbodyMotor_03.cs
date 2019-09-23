@@ -7,6 +7,7 @@ namespace GPL.Movement
     public class MoveRigidbodyMotor_03 : MoveMotorBase
     {
         public Rigidbody _rigidbody;
+        public CapsuleCollider _collider;
 
         public Vector3 velocity
         {
@@ -14,7 +15,7 @@ namespace GPL.Movement
             set { _rigidbody.velocity = value; }
         }
 
-        public LayerMask garoundLayer;
+        public LayerMask groundLayer;
         public float groundCheckDistance=0.5f;
         public bool isOnGrounded;
         public Vector3 groundPoint;
@@ -26,6 +27,7 @@ namespace GPL.Movement
             base.Start();
 
             _rigidbody = GetComponent<Rigidbody>();
+            _collider = GetComponent<CapsuleCollider>();
         }
 
         public override void Update()
@@ -41,9 +43,9 @@ namespace GPL.Movement
 
             //将运动方向映射到地面的平面上
             Vector3 _realMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
-            Debug.DrawRay(transform.position, _realMoveDir, Color.green);
+            Debug.DrawRay(groundPoint, _realMoveDir, Color.green);
 
-            _rigidbody.MovePosition(transform.position+ _realMoveDir * moveSpeed * deltaTime);
+            _rigidbody.MovePosition(Vector3.Lerp(transform.position, transform.position + _realMoveDir, moveSpeed * deltaTime));
         }
 
         public override void Rotate(Quaternion rotation, float rotateSpeed, float deltaTime)
@@ -58,7 +60,9 @@ namespace GPL.Movement
 
         public override void GroundCheck()
         {
-            if (Physics.Raycast(transform.position, -transform.up, out groundHit, groundCheckDistance))
+            var orign = transform.position+(Vector3.down * (_collider.height * 0.5f - _collider.radius));
+            var dis = _collider.radius + groundCheckDistance;
+            if (Physics.Raycast(orign, Vector3.down, out groundHit, dis, groundLayer))
             {
                 groundPoint = groundHit.point;
                 groundNormal = groundHit.normal;

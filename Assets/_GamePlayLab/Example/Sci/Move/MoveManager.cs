@@ -17,6 +17,7 @@ namespace GPL.Movement
 
         [Header("PropertyUI")]
         public Text txt_moveSpeed;
+        public Text txt_slipeAngle;
 
         // Start is called before the first frame update
         void Start()
@@ -35,6 +36,7 @@ namespace GPL.Movement
         public void ShowProperty()
         {
             if (txt_moveSpeed != null) txt_moveSpeed.text = nowPlayer.NowMoveSpeed.ToString("f2");
+            if (txt_slipeAngle != null) txt_slipeAngle.text = nowPlayer.SlopeAngle.ToString("f2");
         }
 
         public void SwtichMoveType()

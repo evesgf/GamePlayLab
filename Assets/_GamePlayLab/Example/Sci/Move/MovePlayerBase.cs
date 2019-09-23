@@ -32,6 +32,8 @@ namespace GPL.Movement
             set { _movement = value; }
         }
 
+        public float SlopeAngle { get { return _movement.SlopeAngle; } }
+
         private Vector3 _lookDirection;
         public Vector3 LookDirection
         {
