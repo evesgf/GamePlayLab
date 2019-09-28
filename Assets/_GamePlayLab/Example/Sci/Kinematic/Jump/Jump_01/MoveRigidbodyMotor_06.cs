@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace GPL.Movement
 {
-    public class MoveRigidbodyMotor_05 : MoveMotorBase
+    public class MoveRigidbodyMotor_06 : MoveMotorBase
     {
         public Rigidbody _rigidbody;
         public CapsuleCollider _collider;
@@ -20,9 +20,11 @@ namespace GPL.Movement
         }
 
         public LayerMask groundLayer;
-        public float groundCheckRadius = 0.05f;
-        public float groundCheckDistance=0.5f;
+        public float groundCheckExtendRadius = 0.05f;
+        public float groundCheckExtendDistance=0.05f;
+        public float groundCheckExtendHeight = 0.05f;
         public bool isOnGrounded;
+        public bool isSlope;
         public Vector3 groundPoint;
         public Vector3 groundNormal;
         public float groundDistance;
@@ -46,28 +48,53 @@ namespace GPL.Movement
             NowMoveSpeed = _rigidbody.velocity.magnitude;
         }
 
+        public override void Jump(float impulse)
+        {
+            base.Jump(impulse);
+
+            var jumpImpulse = Vector3.up * impulse;
+            _rigidbody.velocity = new Vector3(_rigidbody.velocity.x, 0, _rigidbody.velocity.z) + jumpImpulse;
+        }
+
         public override void Move(Vector3 moveDir,float moveSpeed, float deltaTime)
         {
             base.Move(moveDir, moveSpeed, deltaTime);
 
-            //将运动方向映射到地面的平面上
-            Vector3 _realMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
-
-            velocity = _realMoveDir * moveSpeed;
-
+            //in air
             if (!isOnGrounded)
             {
                 useGravity = true;
+
+                //将运动方向映射到地面的平面上
+                Vector3 _realMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
+
+                velocity = _realMoveDir * moveSpeed* moveDir.magnitude;
             }
             else
             {
+                useGravity = false;
+                //in plane
                 if (SlopeAngle <= slopeLimit)
                 {
-                    useGravity = false;
+                    isSlope = false;
+
+                    //将运动方向映射到地面的平面上
+                    Vector3 _realMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
+
+                    velocity = _realMoveDir * moveSpeed * moveDir.magnitude;
+
                 }
+                //in slope
                 else
                 {
-                    useGravity = true;
+                    isSlope = true;
+
+                    //将运动方向映射到地面的平面上
+                    Vector3 _realMoveDir = Vector3.ProjectOnPlane(moveDir, groundNormal).normalized;
+
+                    velocity = _realMoveDir * moveSpeed * moveDir.magnitude;
+
+                    velocity += Vector3.down * gravity;
                 }
             }
 
@@ -86,13 +113,16 @@ namespace GPL.Movement
 
         public override void GroundCheck()
         {
-            var orign = transform.position+(Vector3.down * (_collider.height * 0.5f - _collider.radius- groundCheckRadius-0.01f));
-            var radius = _collider.radius + groundCheckRadius;
-            var dis = groundCheckDistance + 0.01f;
+            var radius = _collider.radius + groundCheckExtendRadius;
+            var height = _collider.height*0.5f-radius- groundCheckExtendHeight;
+            var center = _collider.center - Vector3.up * height;
+            var orign = transform.position + transform.rotation * center;
+            var dir = transform.rotation * Vector3.down;
 
             _collider.isTrigger = true;
 
-            if (Physics.SphereCast(orign, radius, Vector3.down, out groundHit, dis, groundLayer))
+            Debug.DrawLine(orign, orign+dir* height, Color.blue);
+            if (Physics.SphereCast(orign, radius, dir, out groundHit, groundCheckExtendDistance+ groundCheckExtendHeight, groundLayer))
             {
                 groundPoint = groundHit.point;
                 groundNormal = groundHit.normal;
@@ -101,7 +131,7 @@ namespace GPL.Movement
             }
             else
             {
-                if (Physics.Raycast(orign, Vector3.down, out groundHit, dis + 0.5f, groundLayer))
+                if (Physics.Raycast(orign, dir, out groundHit, groundCheckExtendDistance + groundCheckExtendHeight+0.5f, groundLayer))
                 {
                     groundPoint = groundHit.point;
                     groundNormal = groundHit.normal;
@@ -124,15 +154,15 @@ namespace GPL.Movement
 
         private void OnDrawGizmos()
         {
-
-            var orign = transform.position + (Vector3.down * (_collider.height * 0.5f - _collider.radius));
-            var radius = _collider.radius + groundCheckRadius;
-            var dis = groundCheckDistance;
+            var radius = _collider.radius + groundCheckExtendRadius;
+            var height = _collider.height * 0.5f - radius- groundCheckExtendHeight;
+            var center = _collider.center - Vector3.up * height;
+            var orign = transform.position + transform.rotation * center;
+            var dir = transform.rotation * Vector3.down;
 
             if (isOnGrounded)
             {
                 Gizmos.color = Color.green;
-                Gizmos.DrawWireSphere(orign+Vector3.down*groundDistance, radius);
 
                 Handles.color= Color.green;
                 Handles.DrawSolidDisc(groundPoint, groundNormal, 0.1f);
@@ -140,8 +170,9 @@ namespace GPL.Movement
             else
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(orign+Vector3.down* dis, radius);
             }
+
+            Gizmos.DrawWireSphere(groundPoint - dir * radius, radius);
         }
     }
 }

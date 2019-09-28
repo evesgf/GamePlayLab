@@ -13,6 +13,8 @@ namespace GPL.Movement
         public float moveSpeed = 5f;
         public float rotateSpeed = 5f;
 
+        public float jumpImpulse = 5f;
+
         #region PROPERTY
         private Vector3 _moveDirection;
         public Vector3 MoveDirection
@@ -54,7 +56,10 @@ namespace GPL.Movement
         // Update is called once per frame
         public virtual void Update()
         {
-            
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                Movement.Jump(jumpImpulse);
+            }
         }
 
         public virtual void FixedUpdate()

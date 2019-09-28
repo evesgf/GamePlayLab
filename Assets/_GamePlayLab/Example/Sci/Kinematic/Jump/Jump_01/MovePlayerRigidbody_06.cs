@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace GPL.Movement
 {
-    public class MovePlayerRigidbody_05 : MovePlayerBase
+    public class MovePlayerRigidbody_06 : MovePlayerBase
     {
         public override void FixedUpdate()
         {

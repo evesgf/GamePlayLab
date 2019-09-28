@@ -5420,6 +5420,7 @@ MonoBehaviour:
   avatar: {fileID: 550977931}
   moveSpeed: 5
   rotateSpeed: 5
+  jumpImpulse: 5
   _movement: {fileID: 839512170}
 --- !u!1 &903216950
 GameObject:
@@ -11170,6 +11171,7 @@ MonoBehaviour:
   player_rig: {fileID: 5458054957194577172}
   player_cc: {fileID: 839512172}
   txt_moveSpeed: {fileID: 422125465}
+  txt_slipeAngle: {fileID: 0}
 --- !u!1 &1447056862
 GameObject:
   m_ObjectHideFlags: 0
@@ -16036,6 +16038,7 @@ MonoBehaviour:
   avatar: {fileID: 5458054957709560251}
   moveSpeed: 5
   rotateSpeed: 5
+  jumpImpulse: 5
   _movement: {fileID: 5458054957194577173}
 --- !u!114 &5458054957194577173
 MonoBehaviour:
@@ -16051,7 +16054,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 5458054957194577171}
   _collider: {fileID: 5458054957194577170}
-  garoundLayer:
+  groundLayer:
     serializedVersion: 2
     m_Bits: 1
   groundCheckDistance: 0.5

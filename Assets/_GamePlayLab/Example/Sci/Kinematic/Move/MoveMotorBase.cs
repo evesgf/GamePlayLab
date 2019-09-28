@@ -31,6 +31,8 @@ namespace GPL.Movement
 
         public virtual void Rotate(Quaternion rotation, float rotateSpeed, float deltaTime) { }
 
+        public virtual void Jump(float impulse) { }
+
         public virtual void SwitchMoveType(MoveType moveType)
         {
 
