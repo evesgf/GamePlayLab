@@ -2088,6 +2088,7 @@ MonoBehaviour:
   avatar: {fileID: 550977931}
   moveSpeed: 5
   rotateSpeed: 5
+  jumpImpulse: 5
   _movement: {fileID: 839512171}
 --- !u!1 &903216950
 GameObject:
@@ -2629,7 +2630,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u539F\u5730\u65CB\u8F6C\n\u5C0F\u534A\u5F84\u65CB\u8F6C\n\u5FEB\u901F\u8F6C\u8EAB\n\u548B"
+  m_Text: "\u6CBF\u76F8\u673A\u671D\u5411\u65B9\u5411\u8FDB\u884C\u79FB\u52A8\u548C\u65CB\u8F6C\uFF0C\u5148\u7528\u76F8\u673Aforward\u6295\u5F71\u6C34\u5E73\u9762\u518D\u5F52\u4E00\u5316\u5F97\u5230\u76F8\u673A\u671D\u5411\uFF0C\u518D\u7528\u76F8\u673A\u671D\u5411\u4E0E\u89D2\u8272\u91CD\u529B\u65B9\u5411\u53C9\u4E58\u5F97\u5230\u89D2\u8272\u5DE6\u5411\u91CF\uFF0C\u518D\u7528\u5DE6\u5411\u91CF\u4E0E\u89D2\u8272\u91CD\u529B\u5411\u91CF\u6C42\u89D2\u8272\u5728\u91CD\u529B\u65B9\u5411\u4E0A\u7684\u6307\u5411"
 --- !u!222 &1031792936
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4041,6 +4042,7 @@ MonoBehaviour:
   player_rig: {fileID: 5458054957194577172}
   player_cc: {fileID: 839512172}
   txt_moveSpeed: {fileID: 0}
+  txt_slipeAngle: {fileID: 0}
 --- !u!1 &1447056862
 GameObject:
   m_ObjectHideFlags: 0
@@ -6011,6 +6013,7 @@ MonoBehaviour:
   avatar: {fileID: 5458054957709560251}
   moveSpeed: 5
   rotateSpeed: 5
+  jumpImpulse: 5
   _movement: {fileID: 5458054957194577173}
 --- !u!114 &5458054957194577173
 MonoBehaviour:

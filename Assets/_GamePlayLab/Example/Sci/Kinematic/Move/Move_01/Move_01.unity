@@ -2074,6 +2074,7 @@ MonoBehaviour:
   avatar: {fileID: 550977931}
   moveSpeed: 5
   rotateSpeed: 30
+  jumpImpulse: 5
   _movement: {fileID: 839512171}
 --- !u!114 &839512171
 MonoBehaviour:
@@ -2629,7 +2630,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u539F\u5730\u65CB\u8F6C\n\u5C0F\u534A\u5F84\u65CB\u8F6C\n\u5FEB\u901F\u8F6C\u8EAB\n\u548B"
+  m_Text: "\u7B80\u5355\u79FB\u52A8\uFF0C\u76F4\u63A5\u5C06\u8F93\u5165\u65B9\u5411\u53E0\u52A0\u5230\u81EA\u8EAB\u5750\u6807\uFF0C\u65E0\u6CD5\u6839\u636E\u76F8\u673A\u89C6\u89D2\u8FDB\u884C\u6539\u53D8\uFF0C\u9002\u7528\u4E8E\u4FEF\u89C6\u89D2\u63A7\u5236\u3002\n\u5728CC\u4E2D\uFF0CSimpleMove()\u81EA\u5E26\u91CD\u529B\u5E76\u4EE5\u79D2\u4E3A\u79FB\u52A8\u5468\u671F\u3002\u800CMove()\u4E0D\u5E26\u91CD\u529B\u5E76\u4EE5\u5E27\u4E3A\u79FB\u52A8\u5468\u671F\uFF0C\u4E14\u53EA\u6709\u5728\u79FB\u52A8\u7684\u6700\u540E\u9636\u6BB5\u624D\u4F1A\u8FDB\u884C\u78B0\u649E\u68C0\u6D4B\uFF0C\u975E\u79FB\u52A8\u72B6\u6001\u4F1A\u5FFD\u7565\u78B0\u649E\u3002"
 --- !u!222 &1031792936
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4040,6 +4041,8 @@ MonoBehaviour:
   camRig: {fileID: 31462619}
   player_rig: {fileID: 5458054957194577172}
   player_cc: {fileID: 839512170}
+  txt_moveSpeed: {fileID: 0}
+  txt_slipeAngle: {fileID: 0}
 --- !u!1 &1447056862
 GameObject:
   m_ObjectHideFlags: 0
@@ -5712,7 +5715,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh40970
+  m_Name: pb_Mesh66014
   serializedVersion: 9
   m_SubMeshes:
   - serializedVersion: 2
@@ -6010,6 +6013,7 @@ MonoBehaviour:
   avatar: {fileID: 5458054957709560251}
   moveSpeed: 5
   rotateSpeed: 5
+  jumpImpulse: 5
   _movement: {fileID: 5458054957194577173}
 --- !u!114 &5458054957194577173
 MonoBehaviour:

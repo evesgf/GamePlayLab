@@ -13,7 +13,7 @@ namespace GPL.Movement
         [Range(0, 89.9f)]
         public float slopeLimit = 60f;
 
-        public float _castDistance = 0.5f;
+        public float castDistance = 0.5f;
 
         public float groundCheckExtendRadius = 0.05f;
 
@@ -60,7 +60,7 @@ namespace GPL.Movement
             }
             else
             {
-                if (Physics.Raycast(orign, dir, out groundHit, groundCheckExtendDistance + groundCheckExtendHeight + 0.5f, groundLayer))
+                if (Physics.Raycast(orign, dir, out groundHit, groundCheckExtendDistance + groundCheckExtendHeight + castDistance, groundLayer))
                 {
                     groundPoint = groundHit.point;
                     groundNormal = groundHit.normal;

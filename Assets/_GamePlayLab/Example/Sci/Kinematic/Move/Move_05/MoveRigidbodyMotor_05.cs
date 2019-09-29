@@ -43,7 +43,7 @@ namespace GPL.Movement
 
             velocity = _realMoveDir * moveSpeed * moveDir.magnitude;
 
-            if (groundCheck.isOnGrounded)
+            if (groundCheck.isOnGrounded && !groundCheck.isOnSlope)
             {
                 useGravity = false;
             }
