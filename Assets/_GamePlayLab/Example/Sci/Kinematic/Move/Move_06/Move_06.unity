@@ -1194,7 +1194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move_05
+  m_Text: Move_06
 --- !u!222 &140308387
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6672,7 +6672,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u5355\u72EC\u62BD\u8C61\u5730\u9762\u68C0\u6D4B\uFF0C\u5FAE\u8C03\u7403\u5F62\u68C0\u6D4B\u53C2\u6570\u7528\u4EE5\u89E3\u51B3\u5361\u5899\u95EE\u9898\uFF0C\u6DFB\u52A0\u8865\u5145\u5730\u9762\u68C0\u6D4B\u529F\u80FD\u89E3\u51B3\u901F\u5EA6\u8FC7\u5FEB\u8D8A\u8FC7\u7403\u5F62\u68C0\u6D4B\u7684\u95EE\u9898\u3002\u5C06\u79FB\u52A8\u6539\u4E3A\u8BBE\u7F6E\u521A\u4F53\u901F\u5EA6\uFF0C\u89E3\u51B3\u521A\u4F53\u78B0\u649E\u95EE\u9898\u3002"
+  m_Text: "\u7531\u4E8E\u91C7\u7528\u4E860\u6469\u64E6\u7684\u7269\u7406\u6750\u8D28\uFF0C\u9700\u8981\u81EA\u884C\u5B9E\u73B0\u5730\u9762\u6469\u64E6\u529B\uFF0C\u7A7A\u6C14\u963B\u5C3C\u7B49\u52A0\u51CF\u901F\u6761\u4EF6"
 --- !u!222 &1031792936
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17163,11 +17163,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5458054957194577169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1a645e5bac3ee71468dcb3a04a1d327c, type: 3}
+  m_Script: {fileID: 11500000, guid: ff6bc3694f7eb014782de89b8752f997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _rigidbody: {fileID: 5458054957194577171}
   groundCheck: {fileID: 5458054957194577174}
+  acceleration: 50
+  deceleration: 20
+  groundFriction: 8
   useGravity: 1
   gravity: 9.8
 --- !u!114 &5458054957194577174

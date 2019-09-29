@@ -5,10 +5,17 @@ using UnityEngine;
 
 namespace GPL.Movement
 {
-    public class MoveRigidbodyMotor_05 : MoveMotorBase
+    public class MoveRigidbodyMotor_06 : MoveMotorBase
     {
         public Rigidbody _rigidbody;
         public GroundCheck groundCheck;
+
+        [Header("加速度")]
+        public float acceleration = 50f;
+        [Header("阻力")]
+        public float deceleration = 20f;
+        [Header("地面摩擦力")]
+        public float groundFriction = 8f;
 
         public Vector3 velocity
         {
@@ -41,7 +48,21 @@ namespace GPL.Movement
             //将运动方向映射到地面的平面上
             Vector3 _realMoveDir = Vector3.ProjectOnPlane(moveDir, groundCheck.groundNormal).normalized;
 
-            velocity = _realMoveDir * moveSpeed * moveDir.magnitude;
+            var desiredAcceleration = _realMoveDir * acceleration * deltaTime*moveDir.magnitude;
+            //约束加速度不能超过最大值
+            //var speedLimit = moveDir.magnitude > 0f ? Mathf.Min(desiredAcceleration.magnitude, moveSpeed) : moveSpeed;
+
+            if (_realMoveDir == Vector3.zero)
+            {
+                //应用阻力
+                velocity = velocity * Mathf.Clamp01(1f - groundFriction * deltaTime);
+                velocity = Vector3.MoveTowards(velocity, _realMoveDir, deceleration * deltaTime);
+            }
+            else
+            {
+                //应用加速度
+                velocity = Vector3.ClampMagnitude(velocity + desiredAcceleration, moveSpeed);
+            }
 
             if (groundCheck.isOnGrounded && !groundCheck.isOnSlope)
             {
