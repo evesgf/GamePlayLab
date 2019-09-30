@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GPL.Movement
 {
     [RequireComponent(typeof(CapsuleCollider))]
-    public class GroundCheck : MonoBehaviour
+    public abstract class GroundCheck : MonoBehaviour
     {
         public LayerMask groundLayer;
 
@@ -38,7 +38,7 @@ namespace GPL.Movement
             _collider = GetComponent<CapsuleCollider>();
         }
 
-        public void OnGroundCheck()
+        public virtual void OnGroundCheck()
         {
             var radius = _collider.radius + groundCheckExtendRadius;
             var height = _collider.height * 0.5f - radius - groundCheckExtendHeight;
