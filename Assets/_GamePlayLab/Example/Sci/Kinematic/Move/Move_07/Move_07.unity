@@ -1194,7 +1194,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Move_06
+  m_Text: Move_07
 --- !u!222 &140308387
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -17182,14 +17182,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 5458054957194577169}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6145d7218726ee54e878dcd36398e899, type: 3}
+  m_Script: {fileID: 11500000, guid: 042c5ebcbf39aaf42a54a380a4b9d059, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
   slopeLimit: 60
-  castDistance: 1
+  castDistance: 0.5
   groundCheckExtendRadius: 0.01
   groundCheckExtendDistance: 0.05
   groundCheckExtendHeight: 0.05
