@@ -18,6 +18,8 @@ namespace GPL.Movement
 
         public float SlopeAngle { get; set; }
 
+        public Vector3 Velocity { get; set; }
+
         // Start is called before the first frame update
         public virtual void Start() { }
 

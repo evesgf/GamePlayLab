@@ -6,7 +6,7 @@ using UnityEngine;
 namespace GPL.Movement
 {
     [RequireComponent(typeof(CapsuleCollider))]
-    public abstract class GroundCheck : MonoBehaviour
+    public class GroundCheck : MonoBehaviour
     {
         public LayerMask groundLayer;
 

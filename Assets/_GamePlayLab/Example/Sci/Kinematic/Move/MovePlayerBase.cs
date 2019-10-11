@@ -44,6 +44,8 @@ namespace GPL.Movement
         }
 
         public float NowMoveSpeed { get { return Movement.NowMoveSpeed; } }
+
+        public Vector3 Velocity { get { return Movement.Velocity; } }
         #endregion
 
         // Start is called before the first frame update
